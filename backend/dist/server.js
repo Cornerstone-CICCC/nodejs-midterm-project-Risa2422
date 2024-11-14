@@ -15,7 +15,7 @@ const recipe_routes_1 = __importDefault(require("./routes/recipe.routes"));
 const app = (0, express_1.default)();
 // Middleware
 app.use((0, cors_1.default)({
-    origin: "http://localhost:4321",
+    origin: "http://localhost:3002",
     credentials: true,
 }));
 app.use((0, cookie_session_1.default)({
