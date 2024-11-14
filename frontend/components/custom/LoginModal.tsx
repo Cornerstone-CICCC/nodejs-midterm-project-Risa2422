@@ -18,8 +18,9 @@ import { z } from "zod";
 const LoginModal: React.FC<{
   onClose: () => void;
   setIsLoggedIn: (value: boolean) => void;
+  setIsSignedUp: (value: boolean) => void;
   isSignedUp: boolean;
-}> = ({ onClose, setIsLoggedIn, isSignedUp }) => {
+}> = ({ onClose, setIsLoggedIn, setIsSignedUp, isSignedUp }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -77,6 +78,7 @@ const LoginModal: React.FC<{
       }
 
       setIsLoggedIn(true);
+      setIsSignedUp(false);
       onClose();
     } catch (error: any) {
       setError(error.message || "Failed to login");

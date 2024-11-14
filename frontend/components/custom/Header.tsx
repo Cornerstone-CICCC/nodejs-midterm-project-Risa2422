@@ -22,6 +22,22 @@ const Header = () => {
     setIsModalOpen(false);
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/user/logout", {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to register");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+    setIsLoggedIn(false);
+  };
+
   return (
     <header className="flex justify-between p-4 border-b">
       <div>logo</div>
@@ -30,7 +46,7 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               <li>
-                <button>Log out</button>
+                <button onClick={handleLogout}>Log out</button>
               </li>
               <li>
                 <button>My Recipes</button>
@@ -54,6 +70,7 @@ const Header = () => {
           onClose={onclose}
           setIsLoggedIn={setIsLoggedIn}
           isSignedUp={isSignedUp}
+          setIsSignedUp={setIsSignedUp}
         />
       )}
     </header>
