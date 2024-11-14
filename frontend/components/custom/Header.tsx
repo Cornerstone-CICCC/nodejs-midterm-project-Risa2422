@@ -7,8 +7,14 @@ type Props = {};
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
 
   const handleLogin = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleSignUp = () => {
+    setIsSignedUp(true);
     setIsModalOpen(true);
   };
 
@@ -24,19 +30,19 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               <li>
-                <button>Log out</button>{" "}
+                <button>Log out</button>
               </li>
               <li>
-                <button>My Profile</button>{" "}
+                <button>My Recipes</button>
               </li>
             </>
           ) : (
             <>
               <li>
-                <button onClick={handleLogin}>Sign up</button>{" "}
+                <button onClick={handleSignUp}>Sign up</button>
               </li>
               <li>
-                <button onClick={handleLogin}>Log in</button>{" "}
+                <button onClick={handleLogin}>Log in</button>
               </li>
             </>
           )}
@@ -44,7 +50,11 @@ const Header = () => {
       </nav>
 
       {isModalOpen && (
-        <LoginModal onClose={onclose} setIsLoggedIn={setIsLoggedIn} />
+        <LoginModal
+          onClose={onclose}
+          setIsLoggedIn={setIsLoggedIn}
+          isSignedUp={isSignedUp}
+        />
       )}
     </header>
   );

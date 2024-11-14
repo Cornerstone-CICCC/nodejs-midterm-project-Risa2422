@@ -18,7 +18,8 @@ import { z } from "zod";
 const LoginModal: React.FC<{
   onClose: () => void;
   setIsLoggedIn: (value: boolean) => void;
-}> = ({ onClose, setIsLoggedIn }) => {
+  isSignedUp: boolean;
+}> = ({ onClose, setIsLoggedIn, isSignedUp }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -47,6 +48,21 @@ const LoginModal: React.FC<{
     const formData = { username, password };
 
     try {
+      if (isSignedUp) {
+        const response = await fetch("http://localhost:3000/user/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to register");
+        }
+      }
+
       const response = await fetch("http://localhost:3000/user/login", {
         method: "POST",
         headers: {
@@ -60,14 +76,13 @@ const LoginModal: React.FC<{
         throw new Error("Invalid username or password");
       }
 
+      setIsLoggedIn(true);
       onClose();
     } catch (error: any) {
       setError(error.message || "Failed to login");
     } finally {
       setLoading(false);
     }
-
-    setIsLoggedIn(true);
   };
 
   return (
@@ -77,7 +92,7 @@ const LoginModal: React.FC<{
           <button onClick={onClose}>
             <img src="/arrow-circle-left.png" alt="Back" />
           </button>
-          <h2 className="text-xl mb-4">Log In</h2>
+          <h2 className="text-xl mb-4">{isSignedUp ? "Sign up" : "Log in"}</h2>
           <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8">
             <FormField
               control={form.control}
@@ -99,13 +114,13 @@ const LoginModal: React.FC<{
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Log in</Button>
+            <Button type="submit">{isSignedUp ? "Sign Up" : "Log In"}</Button>
           </form>
         </Form>
       </div>
