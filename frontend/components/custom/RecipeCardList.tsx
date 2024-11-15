@@ -1,6 +1,12 @@
-import { Recipe } from "../../types/recipe"; // Recipeの型定義がある場合
+import { Recipe } from "../../types/recipe";
 import React from "react";
 import RecipeCard from "./RecipeCard";
+import MyRecipeCard from "./MyRecipeCard";
+
+type RecipeCardListProps = {
+  isMypage: boolean;
+  userId: string;
+};
 
 async function getAllRecipes() {
   const response = await fetch("http://localhost:3000/recipe", {
@@ -15,8 +21,32 @@ async function getAllRecipes() {
   return data;
 }
 
-const RecipeCardList = async () => {
-  const recipes = await getAllRecipes();
+async function getRecipesByUserId(id: string) {
+  const response = await fetch(`http://localhost:3000/recipe/user/${id}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recipes");
+  }
+
+  const data: Recipe[] = await response.json();
+  return data;
+}
+
+const RecipeCardList: React.FC<RecipeCardListProps> = async ({
+  isMypage,
+  userId,
+}) => {
+  let recipes;
+
+  if (isMypage) {
+    recipes = await getRecipesByUserId(userId);
+  } else {
+    recipes = await getAllRecipes();
+  }
+
+  console.log(recipes);
 
   return (
     <div
@@ -33,7 +63,17 @@ const RecipeCardList = async () => {
       {recipes.length === 0 ? (
         <div>No recipes available.</div>
       ) : (
-        recipes.map((recipe) => <RecipeCard key={recipe.id} recipe={recipe} />)
+        <>
+          {recipes.map((recipe) => (
+            <div key={recipe.id}>
+              {isMypage ? (
+                <MyRecipeCard recipe={recipe} />
+              ) : (
+                <RecipeCard recipe={recipe} />
+              )}
+            </div>
+          ))}
+        </>
       )}
     </div>
   );

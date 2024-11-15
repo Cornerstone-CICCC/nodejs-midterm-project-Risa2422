@@ -14,19 +14,38 @@ class RecipeModel {
             },
             {
                 id: "2",
+                userId: "2",
                 title: "Okoniyaki",
+                cuisineType: "Japanese",
+                cookingTime: 10,
+                difficulty: "easy",
+            },
+            {
+                id: "3",
+                userId: "90393cd5-ab1f-40fc-be7f-ca2dfaccb438",
+                title: "Bibimbap",
+                cuisineType: "Korean",
+                cookingTime: 10,
+                difficulty: "easy",
+            },
+            {
+                id: "4",
+                userId: "90393cd5-ab1f-40fc-be7f-ca2dfaccb438",
+                title: "Toppoki",
+                cuisineType: "Korean",
+                cookingTime: 10,
+                difficulty: "easy",
             },
         ];
     }
     findAllRecipe() {
         return this.recipes;
     }
-    
     findRecipeByUserId(id) {
-        const recipe = this.recipes.find((recipe) => recipe.userId === id);
-        if (!recipe)
+        const filteredRecipes = this.recipes.filter((recipe) => recipe.userId === id);
+        if (filteredRecipes.length === 0)
             return undefined;
-        return recipe;
+        return filteredRecipes;
     }
     findRecipeById(id) {
         const recipe = this.recipes.find((recipe) => recipe.id === id);

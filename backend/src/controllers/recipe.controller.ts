@@ -25,7 +25,6 @@ const getRecipeByUserId = (
   res: Response
 ): void => {
   const { id } = req.params;
-  console.log(req);
   const recipe = recipeModel.findRecipeByUserId(id);
 
   if (!recipe) {
@@ -40,12 +39,15 @@ const addRecipe = (
   req: Request<{}, {}, Omit<Recipe, "id">>,
   res: Response
 ): void => {
+  console.log("addされます");
   const { userId } = req.session;
   const { title } = req.body;
   if (!title || !userId) {
     res.status(400).json({ message: "Missing title or user id" });
     return;
   }
+
+  console.log(req.body);
   const recipe = recipeModel.createRecipe(req.body);
   res.status(201).json(recipe);
 };

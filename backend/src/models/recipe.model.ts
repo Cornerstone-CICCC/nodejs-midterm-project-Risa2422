@@ -28,16 +28,26 @@ class RecipeModel {
       cookingTime: 10,
       difficulty: "easy",
     },
+    {
+      id: "4",
+      userId: "90393cd5-ab1f-40fc-be7f-ca2dfaccb438",
+      title: "Toppoki",
+      cuisineType: "Korean",
+      cookingTime: 10,
+      difficulty: "easy",
+    },
   ];
 
   findAllRecipe(): Recipe[] {
     return this.recipes;
   }
 
-  findRecipeByUserId(id: string): Recipe | undefined {
-    const recipe = this.recipes.find((recipe) => recipe.userId === id);
-    if (!recipe) return undefined;
-    return recipe;
+  findRecipeByUserId(id: string): Recipe[] | undefined {
+    const filteredRecipes = this.recipes.filter(
+      (recipe) => recipe.userId === id
+    );
+    if (filteredRecipes.length === 0) return undefined;
+    return filteredRecipes;
   }
 
   findRecipeById(id: string): Recipe | undefined {

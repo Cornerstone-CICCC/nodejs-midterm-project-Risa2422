@@ -56,7 +56,6 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.session) {
         req.session.isAuthenticated = true;
         req.session.userId = user.id;
-        // res.json({ message: "Login successful" });
         res.status(201).json(user.id);
     }
 });

@@ -5,7 +5,7 @@ export default function Home() {
     <div className="p-20">
       <main className="flex flex-col row-start-2 items-center">
         {/* <Search /> */}
-        <RecipeCardList />
+        <RecipeCardList isMypage={false} userId={"0"} />
       </main>
     </div>
   );

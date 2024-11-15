@@ -19,8 +19,9 @@ async function getRecipeById(id: string) {
 const RecipeDetail = async () => {
   const params = useParams();
   const data = params.id;
+  const userId: string = data?.toString();
 
-  const test = await getRecipeById(data);
+  const test = await getRecipeById(userId);
 
   return (
     <>
