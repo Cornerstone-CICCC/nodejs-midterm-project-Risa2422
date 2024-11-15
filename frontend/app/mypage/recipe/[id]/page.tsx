@@ -75,7 +75,8 @@ const RecipeEditForm = () => {
   const handleDelete = async () => {
     if (!id) return;
     try {
-      await deleteRecipeById(id);
+      const data = await deleteRecipeById(id);
+      alert("Recipe deleted successfully!");
     } catch (error) {
       setError("Failed to delete recipe.");
     }

@@ -21,23 +21,20 @@ const RecipeCreateForm = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // フォームの値を更新する関数
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "cookingTime" ? parseInt(value) : value, // cookingTimeだけ数値変換
+      [name]: name === "cookingTime" ? parseInt(value) : value,
     }));
   };
 
-  // フォーム送信処理
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // バリデーション
     if (!formData.title || !formData.cuisineType || !formData.cookingTime) {
       setError("Please fill in all fields.");
       setIsSubmitting(false);
