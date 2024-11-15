@@ -1,5 +1,8 @@
 "use client";
-import React, { useState } from "react";
+
+import { Recipe } from "@/types/recipe";
+import { useParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 
 type RecipeFormData = {
   userId: string;
@@ -9,35 +12,68 @@ type RecipeFormData = {
   difficulty: "easy" | "medium" | "hard";
 };
 
-const RecipeCreateForm = () => {
-  const [formData, setFormData] = useState<RecipeFormData>({
-    userId: "90393cd5-ab1f-40fc-be7f-ca2dfaccb438",
-    title: "",
-    cuisineType: "",
-    cookingTime: 0,
-    difficulty: "easy",
+type Props = {
+  recipe: Recipe;
+  userId?: number;
+};
+
+async function getRecipeById(id: string): Promise<Recipe> {
+  const response = await fetch(`http://localhost:3000/recipe/${id}`, {
+    credentials: "include",
   });
 
+  if (!response.ok) {
+    throw new Error("Failed to fetch recipe");
+  }
+
+  const data: Recipe = await response.json();
+  return data;
+}
+
+const RecipeEditForm = () => {
+  const params = useParams();
+  const id: string | undefined = params.id;
+  const [formData, setFormData] = useState<RecipeFormData | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // フォームの値を更新する関数
+  useEffect(() => {
+    if (id) {
+      getRecipeById(id)
+        .then((data) => {
+          setFormData({
+            id: data.id,
+            userId: data.userId,
+            title: data.title,
+            cuisineType: data.cuisineType,
+            cookingTime: data.cookingTime,
+            difficulty: data.difficulty,
+          });
+        })
+        .catch((error) => {
+          setError("Failed to load recipe data");
+        });
+    }
+  }, [id]);
+
+  if (!formData) {
+    return <div>Loading...</div>;
+  }
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: name === "cookingTime" ? parseInt(value) : value, // cookingTimeだけ数値変換
+      [name]: name === "cookingTime" ? parseInt(value) : value,
     }));
   };
 
-  // フォーム送信処理
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // バリデーション
     if (!formData.title || !formData.cuisineType || !formData.cookingTime) {
       setError("Please fill in all fields.");
       setIsSubmitting(false);
@@ -45,30 +81,25 @@ const RecipeCreateForm = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/recipe/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-        credentials: "include",
-      });
+      const response = await fetch(
+        `http://localhost:3000/recipe/update/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
-        throw new Error("Failed to create recipe");
+        throw new Error("Failed to update recipe");
       }
 
-      setFormData({
-        userId: "",
-        title: "",
-        cuisineType: "",
-        cookingTime: 0,
-        difficulty: "easy",
-      });
-      setError(null);
-      alert("Recipe created successfully!");
+      alert("Recipe updated successfully!");
     } catch (error) {
-      setError("Failed to create recipe.");
+      setError("Failed to update recipe.");
     } finally {
       setIsSubmitting(false);
     }
@@ -76,7 +107,7 @@ const RecipeCreateForm = () => {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Create a New Recipe</h2>
+      <h2 className="text-2xl font-bold mb-4">Edit Recipe</h2>
 
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
@@ -95,7 +126,6 @@ const RecipeCreateForm = () => {
             value={formData.title}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            placeholder="Recipe Title"
             required
           />
         </div>
@@ -114,7 +144,6 @@ const RecipeCreateForm = () => {
             value={formData.cuisineType}
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-            placeholder="e.g., Italian"
             required
           />
         </div>
@@ -167,11 +196,11 @@ const RecipeCreateForm = () => {
               : "bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
           }`}
         >
-          {isSubmitting ? "Submitting..." : "Create Recipe"}
+          {isSubmitting ? "Submitting..." : "Update Recipe"}
         </button>
       </form>
     </div>
   );
 };
 
-export default RecipeCreateForm;
+export default RecipeEditForm;

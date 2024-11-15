@@ -1,7 +1,9 @@
+"use client";
 import { Recipe } from "../../types/recipe";
 import React from "react";
 import RecipeCard from "./RecipeCard";
 import MyRecipeCard from "./MyRecipeCard";
+import { useParams } from "next/navigation";
 
 type RecipeCardListProps = {
   isMypage: boolean;
@@ -40,13 +42,15 @@ const RecipeCardList: React.FC<RecipeCardListProps> = async ({
 }) => {
   let recipes;
 
+  const params = useParams();
+  const data = params.id;
+  const testId = data;
+
   if (isMypage) {
     recipes = await getRecipesByUserId(userId);
   } else {
     recipes = await getAllRecipes();
   }
-
-  console.log(recipes);
 
   return (
     <div
@@ -67,7 +71,7 @@ const RecipeCardList: React.FC<RecipeCardListProps> = async ({
           {recipes.map((recipe) => (
             <div key={recipe.id}>
               {isMypage ? (
-                <MyRecipeCard recipe={recipe} />
+                <MyRecipeCard recipe={recipe} userId={testId} />
               ) : (
                 <RecipeCard recipe={recipe} />
               )}

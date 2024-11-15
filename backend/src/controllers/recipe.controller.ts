@@ -12,6 +12,8 @@ const getRecipes = (req: Request, res: Response): void => {
 const getRecipeById = (req: Request<{ id: string }>, res: Response): void => {
   const { id } = req.params;
   const recipe = recipeModel.findRecipeById(id);
+
+  console.log("comming", id);
   if (!recipe) {
     res.status(404).json({ message: "Recipe not found" });
     return;
@@ -39,7 +41,6 @@ const addRecipe = (
   req: Request<{}, {}, Omit<Recipe, "id">>,
   res: Response
 ): void => {
-  console.log("addされます");
   const { userId } = req.session;
   const { title } = req.body;
   if (!title || !userId) {
@@ -58,8 +59,8 @@ const updateRecipeById = (
   res: Response
 ): void => {
   const { id } = req.params;
-  const { title } = req.body;
-  const recipe = recipeModel.edit(id, { title });
+  console.log(req.body);
+  const recipe = recipeModel.edit(id, req.body);
   if (!recipe) {
     res.status(404).json({ message: "Recipe not found" });
     return;

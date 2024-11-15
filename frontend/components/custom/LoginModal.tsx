@@ -79,8 +79,6 @@ const LoginModal: React.FC<{
 
       const userId = await response.json();
 
-      console.log(userId);
-
       setIsLoggedIn(true);
       setIsSignedUp(false);
 

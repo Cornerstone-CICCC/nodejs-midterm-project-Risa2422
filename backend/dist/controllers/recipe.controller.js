@@ -13,6 +13,7 @@ const getRecipes = (req, res) => {
 const getRecipeById = (req, res) => {
     const { id } = req.params;
     const recipe = recipe_model_1.default.findRecipeById(id);
+    console.log("comming", id);
     if (!recipe) {
         res.status(404).json({ message: "Recipe not found" });
         return;
@@ -31,7 +32,6 @@ const getRecipeByUserId = (req, res) => {
 };
 // Add recipe
 const addRecipe = (req, res) => {
-    console.log("addされます");
     const { userId } = req.session;
     const { title } = req.body;
     if (!title || !userId) {
@@ -45,8 +45,8 @@ const addRecipe = (req, res) => {
 // Update recipe by id
 const updateRecipeById = (req, res) => {
     const { id } = req.params;
-    const { title } = req.body;
-    const recipe = recipe_model_1.default.edit(id, { title });
+    console.log(req.body);
+    const recipe = recipe_model_1.default.edit(id, req.body);
     if (!recipe) {
         res.status(404).json({ message: "Recipe not found" });
         return;
