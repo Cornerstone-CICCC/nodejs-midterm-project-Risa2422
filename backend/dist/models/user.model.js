@@ -14,14 +14,12 @@ class UserModel {
     findAll() {
         return this.users;
     }
-    
     findById(id) {
         const user = this.users.find((user) => user.id === id);
         if (!user)
             return undefined;
         return user;
     }
-
     findByUsername(username) {
         const user = this.users.find((user) => user.username === username);
         if (!user)

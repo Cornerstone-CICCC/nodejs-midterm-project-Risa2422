@@ -69,7 +69,7 @@ class RecipeModel {
         return updatedArticle;
     }
     delete(id, recipeId) {
-        const index = this.recipes.findIndex((recipe) => recipe.id === id && recipe.id === recipeId);
+        const index = this.recipes.findIndex((recipe) => recipe.id === id);
         if (index === 1)
             return false;
         this.recipes.splice(index, 1);

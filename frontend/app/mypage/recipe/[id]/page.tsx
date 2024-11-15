@@ -5,16 +5,12 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 type RecipeFormData = {
+  id: string;
   userId: string;
   title: string;
   cuisineType: string;
   cookingTime: number;
   difficulty: "easy" | "medium" | "hard";
-};
-
-type Props = {
-  recipe: Recipe;
-  userId?: number;
 };
 
 async function getRecipeById(id: string): Promise<Recipe> {
@@ -30,6 +26,20 @@ async function getRecipeById(id: string): Promise<Recipe> {
   return data;
 }
 
+async function deleteRecipeById(id: string): Promise<void> {
+  const response = await fetch(`http://localhost:3000/recipe/delete/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete recipe");
+  }
+}
+
 const RecipeEditForm = () => {
   const params = useParams();
   const id: string | undefined = params.id;
@@ -39,8 +49,9 @@ const RecipeEditForm = () => {
 
   useEffect(() => {
     if (id) {
-      getRecipeById(id)
-        .then((data) => {
+      const fetchRecipe = async () => {
+        try {
+          const data = await getRecipeById(id);
           setFormData({
             id: data.id,
             userId: data.userId,
@@ -49,10 +60,11 @@ const RecipeEditForm = () => {
             cookingTime: data.cookingTime,
             difficulty: data.difficulty,
           });
-        })
-        .catch((error) => {
+        } catch (error) {
           setError("Failed to load recipe data");
-        });
+        }
+      };
+      fetchRecipe();
     }
   }, [id]);
 
@@ -60,12 +72,21 @@ const RecipeEditForm = () => {
     return <div>Loading...</div>;
   }
 
+  const handleDelete = async () => {
+    if (!id) return;
+    try {
+      await deleteRecipeById(id);
+    } catch (error) {
+      setError("Failed to delete recipe.");
+    }
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
-      ...prevData,
+      ...prevData!,
       [name]: name === "cookingTime" ? parseInt(value) : value,
     }));
   };
@@ -199,6 +220,18 @@ const RecipeEditForm = () => {
           {isSubmitting ? "Submitting..." : "Update Recipe"}
         </button>
       </form>
+
+      <button
+        onClick={handleDelete}
+        disabled={isSubmitting}
+        className={`w-full py-2 px-4 text-white font-semibold rounded-md ${
+          isSubmitting
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-red-600 hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
+        }`}
+      >
+        Delete
+      </button>
     </div>
   );
 };
