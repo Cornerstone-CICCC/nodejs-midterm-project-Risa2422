@@ -10,7 +10,7 @@ type RecipeFormData = {
   title: string;
   cuisineType: string;
   cookingTime: number;
-  difficulty: "easy" | "medium" | "hard";
+  difficulty: "easy" | "medium" | "advance";
 };
 
 async function getRecipeById(id: string): Promise<Recipe> {
@@ -42,7 +42,7 @@ async function deleteRecipeById(id: string): Promise<void> {
 
 const RecipeEditForm = () => {
   const params = useParams();
-  const id: string | undefined = params.id;
+  const id = params.id as string;
   const [formData, setFormData] = useState<RecipeFormData | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -205,7 +205,7 @@ const RecipeEditForm = () => {
           >
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
+            <option value="advance">Hard</option>
           </select>
         </div>
 

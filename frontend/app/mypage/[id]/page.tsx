@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const MyRecipe = () => {
   const params = useParams();
-  const userId: string | undefined = params.id;
+  const userId = params.id as string;
 
   if (!userId) {
     return <div>Error: User ID not found.</div>;
@@ -19,7 +19,6 @@ const MyRecipe = () => {
           Add
         </button>
       </Link>
-
       <RecipeCardList isMypage={true} userId={userId} />
     </>
   );

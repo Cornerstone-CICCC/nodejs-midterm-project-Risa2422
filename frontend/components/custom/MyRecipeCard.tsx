@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 type Props = {
   recipe: Recipe;
-  userId?: number;
+  userId?: string;
 };
 
 const MyRecipeCard = (props: Props) => {

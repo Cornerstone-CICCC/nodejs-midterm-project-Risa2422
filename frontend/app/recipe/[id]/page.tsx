@@ -18,17 +18,15 @@ async function getRecipeById(id: string) {
 
 const RecipeDetail = async () => {
   const params = useParams();
-  const data = params.id;
-  const userId: string = data?.toString();
-
-  const test = await getRecipeById(userId);
+  const data = params.id as string;
+  const recipe = await getRecipeById(data);
 
   return (
     <>
-      <div>{test.title}</div>
-      <div>{test.cuisineType}</div>
-      <div>{test.cookingTime}</div>
-      <div>{test.difficulty}</div>
+      <div>{recipe.title}</div>
+      <div>{recipe.cuisineType}</div>
+      <div>{recipe.cookingTime}</div>
+      <div>{recipe.difficulty}</div>
     </>
   );
 };
