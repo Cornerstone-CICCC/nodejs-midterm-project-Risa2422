@@ -1,7 +1,6 @@
 import { Recipe } from "@/types/recipe";
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 type Props = {
   recipe: Recipe;

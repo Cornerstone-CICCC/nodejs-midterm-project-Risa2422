@@ -1,9 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Recipe } from "../../../types/recipe";
 import { useParams } from "next/navigation";
 
-async function getRecipeById(id: string) {
+type Params = {
+  id?: string;
+};
+
+async function getRecipeById(id: string): Promise<Recipe> {
   const response = await fetch(`http://localhost:3000/recipe/${id}`, {
     credentials: "include",
   });
@@ -16,10 +21,39 @@ async function getRecipeById(id: string) {
   return data;
 }
 
-const RecipeDetail = async () => {
-  const params = useParams();
-  const data = params.id as string;
-  const recipe = await getRecipeById(data);
+const RecipeDetail = () => {
+  const { id } = useParams<Params>();
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      const fetchRecipe = async () => {
+        try {
+          const fetchedRecipe = await getRecipeById(id);
+          setRecipe(fetchedRecipe);
+        } catch (err) {
+          setError("Failed to fetch recipe");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchRecipe();
+    }
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!recipe) {
+    return <div>Recipe not found</div>;
+  }
 
   return (
     <>
