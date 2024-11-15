@@ -56,7 +56,8 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.session) {
         req.session.isAuthenticated = true;
         req.session.userId = user.id;
-        res.json({ message: "Login successful" });
+        // res.json({ message: "Login successful" });
+        res.status(201).json(user.id);
     }
 });
 // Logout
@@ -64,9 +65,20 @@ const logoutUser = (req, res) => {
     req.session = { isAuthenticated: false, userId: "" };
     res.send();
 };
+// Get user by id
+const getUserById = (req, res) => {
+    const { id } = req.params;
+    const user = user_model_1.default.findById(id);
+    if (!user) {
+        res.status(404).json({ message: "User not found" });
+        return;
+    }
+    res.json(user);
+};
 exports.default = {
     getUsers,
     registerUser,
     loginUser,
     logoutUser,
+    getUserById,
 };

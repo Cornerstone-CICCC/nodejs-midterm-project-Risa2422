@@ -17,6 +17,13 @@ class RecipeModel {
     findAllRecipe() {
         return this.recipes;
     }
+    
+    findRecipeByUserId(id) {
+        const recipe = this.recipes.find((recipe) => recipe.userId === id);
+        if (!recipe)
+            return undefined;
+        return recipe;
+    }
     findRecipeById(id) {
         const recipe = this.recipes.find((recipe) => recipe.id === id);
         if (!recipe)

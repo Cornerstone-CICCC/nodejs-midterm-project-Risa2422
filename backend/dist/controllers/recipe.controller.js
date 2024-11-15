@@ -19,6 +19,17 @@ const getRecipeById = (req, res) => {
     }
     res.json(recipe);
 };
+// Get recipe by userId
+const getRecipeByUserId = (req, res) => {
+    const { id } = req.params;
+    console.log(req);
+    const recipe = recipe_model_1.default.findRecipeByUserId(id);
+    if (!recipe) {
+        res.status(404).json({ message: "Recipe not found" });
+        return;
+    }
+    res.json(recipe);
+};
 // Add recipe
 const addRecipe = (req, res) => {
     const { userId } = req.session;
@@ -27,7 +38,7 @@ const addRecipe = (req, res) => {
         res.status(400).json({ message: "Missing title or user id" });
         return;
     }
-    const recipe = recipe_model_1.default.createRecipe({ title });
+    const recipe = recipe_model_1.default.createRecipe(req.body);
     res.status(201).json(recipe);
 };
 // Update recipe by id
@@ -58,4 +69,5 @@ exports.default = {
     addRecipe,
     deleteRecipeById,
     updateRecipeById,
+    getRecipeByUserId,
 };

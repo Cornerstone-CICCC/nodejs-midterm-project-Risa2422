@@ -12,4 +12,5 @@ recipeRouter.post("/add", auth_1.checkAuth, recipe_controller_1.default.addRecip
 recipeRouter.put("/update/:id", auth_1.checkAuth, recipe_controller_1.default.updateRecipeById);
 recipeRouter.delete("/delete/:id", auth_1.checkAuth, recipe_controller_1.default.deleteRecipeById);
 recipeRouter.get("/:id", recipe_controller_1.default.getRecipeById);
+recipeRouter.get("/user/:id", recipe_controller_1.default.getRecipeByUserId);
 exports.default = recipeRouter;

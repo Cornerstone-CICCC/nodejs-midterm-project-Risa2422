@@ -55,7 +55,7 @@ const loginUser = async (
   if (req.session) {
     req.session.isAuthenticated = true;
     req.session.userId = user.id;
-    res.json({ message: "Login successful" });
+    res.status(201).json(user.id);
   }
 };
 
@@ -65,9 +65,21 @@ const logoutUser = (req: Request, res: Response): void => {
   res.send();
 };
 
+// Get user by id
+const getUserById = (req: Request<{ id: string }>, res: Response): void => {
+  const { id } = req.params;
+  const user = userModel.findById(id);
+  if (!user) {
+    res.status(404).json({ message: "User not found" });
+    return;
+  }
+  res.json(user);
+};
+
 export default {
   getUsers,
   registerUser,
   loginUser,
   logoutUser,
+  getUserById,
 };

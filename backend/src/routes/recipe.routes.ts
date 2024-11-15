@@ -13,5 +13,6 @@ recipeRouter.delete(
   recipeController.deleteRecipeById
 );
 recipeRouter.get("/:id", recipeController.getRecipeById);
+recipeRouter.get("/user/:id", recipeController.getRecipeByUserId);
 
 export default recipeRouter;
