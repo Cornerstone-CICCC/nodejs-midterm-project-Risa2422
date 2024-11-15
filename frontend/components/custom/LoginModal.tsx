@@ -77,8 +77,13 @@ const LoginModal: React.FC<{
         throw new Error("Invalid username or password");
       }
 
+      const userId = await response.json();
+
+      console.log(userId);
+
       setIsLoggedIn(true);
       setIsSignedUp(false);
+
       onClose();
     } catch (error: any) {
       setError(error.message || "Failed to login");
