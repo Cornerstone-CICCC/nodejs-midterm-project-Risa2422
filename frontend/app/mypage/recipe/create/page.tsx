@@ -1,23 +1,28 @@
 "use client";
-import React, { useState } from "react";
+
+import { SidebarContext } from "@/provider";
+import { useRouter } from "next/navigation";
+import React, { useContext, useState } from "react";
 
 type RecipeFormData = {
   userId: string;
   title: string;
   cuisineType: string;
   cookingTime: number;
-  difficulty: "easy" | "medium" | "hard";
+  difficulty: "easy" | "medium" | "advance";
 };
 
 const RecipeCreateForm = () => {
+  const { loggedUserId } = useContext(SidebarContext);
   const [formData, setFormData] = useState<RecipeFormData>({
-    userId: "90393cd5-ab1f-40fc-be7f-ca2dfaccb438",
+    userId: loggedUserId,
     title: "",
     cuisineType: "",
     cookingTime: 0,
     difficulty: "easy",
   });
 
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -64,6 +69,7 @@ const RecipeCreateForm = () => {
       });
       setError(null);
       alert("Recipe created successfully!");
+      router.push(`/mypage/${loggedUserId}`);
     } catch (error) {
       setError("Failed to create recipe.");
     } finally {
@@ -151,7 +157,7 @@ const RecipeCreateForm = () => {
           >
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
+            <option value="advance">Hard</option>
           </select>
         </div>
 

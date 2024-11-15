@@ -11,7 +11,6 @@ const MyRecipeCard = (props: Props) => {
   return (
     <>
       <Link href={`http://localhost:3002/mypage/recipe/${props.recipe.id}`}>
-        <p>{props.userId}</p>
         <div className="my-8 w-52 rounded shadow-lg shadow-gray-200 dark:shadow-gray-900 bg-white dark:bg-gray-800 duration-300 hover:-translate-y-1">
           <div
             className="h-48 bg-cover bg-center"

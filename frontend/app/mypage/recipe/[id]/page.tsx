@@ -2,7 +2,9 @@
 
 import { Recipe } from "@/types/recipe";
 import { useParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState, useEffect, useContext } from "react";
+import { SidebarContext } from "@/provider";
 
 type RecipeFormData = {
   id: string;
@@ -41,11 +43,13 @@ async function deleteRecipeById(id: string): Promise<void> {
 }
 
 const RecipeEditForm = () => {
+  const router = useRouter();
   const params = useParams();
   const id = params.id as string;
   const [formData, setFormData] = useState<RecipeFormData | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { loggedUserId } = useContext(SidebarContext);
 
   useEffect(() => {
     if (id) {
@@ -75,8 +79,9 @@ const RecipeEditForm = () => {
   const handleDelete = async () => {
     if (!id) return;
     try {
-      const data = await deleteRecipeById(id);
+      await deleteRecipeById(id);
       alert("Recipe deleted successfully!");
+      router.push(`/mypage/${loggedUserId}`);
     } catch (error) {
       setError("Failed to delete recipe.");
     }
@@ -120,6 +125,7 @@ const RecipeEditForm = () => {
       }
 
       alert("Recipe updated successfully!");
+      router.push(`/mypage/${loggedUserId}`);
     } catch (error) {
       setError("Failed to update recipe.");
     } finally {
