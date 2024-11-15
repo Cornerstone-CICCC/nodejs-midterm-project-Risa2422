@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import LoginModal from "./LoginModal";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -8,6 +10,8 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const handleLogin = () => {
     setIsModalOpen(true);
@@ -19,6 +23,7 @@ const Header = () => {
   };
 
   const onclose = () => {
+    setIsSignedUp(false);
     setIsModalOpen(false);
   };
 
@@ -29,13 +34,15 @@ const Header = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to register");
+        throw new Error("Failed to logout");
       }
+
+      setIsLoggedIn(false);
+
+      router.push("/");
     } catch (error) {
       console.error(error);
     }
-
-    setIsLoggedIn(false);
   };
 
   return (
@@ -49,7 +56,9 @@ const Header = () => {
                 <button onClick={handleLogout}>Log out</button>
               </li>
               <li>
-                <button>My Recipes</button>
+                <Link href={`/mypage/90393cd5-ab1f-40fc-be7f-ca2dfaccb438`}>
+                  My Recipes
+                </Link>
               </li>
             </>
           ) : (
