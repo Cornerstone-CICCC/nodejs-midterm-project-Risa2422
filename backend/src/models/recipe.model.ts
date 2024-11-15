@@ -6,11 +6,27 @@ class RecipeModel {
   private recipes: Recipe[] = [
     {
       id: "1",
-      title: "Miso Soup",
+      userId: "1",
+      title: "Takoyaki",
+      cuisineType: "Japanese",
+      cookingTime: 10,
+      difficulty: "easy",
     },
     {
       id: "2",
+      userId: "2",
       title: "Okoniyaki",
+      cuisineType: "Japanese",
+      cookingTime: 10,
+      difficulty: "easy",
+    },
+    {
+      id: "3",
+      userId: "90393cd5-ab1f-40fc-be7f-ca2dfaccb438",
+      title: "Bibimbap",
+      cuisineType: "Korean",
+      cookingTime: 10,
+      difficulty: "easy",
     },
   ];
 

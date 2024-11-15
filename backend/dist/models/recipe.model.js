@@ -6,7 +6,11 @@ class RecipeModel {
         this.recipes = [
             {
                 id: "1",
-                title: "Miso Soup",
+                userId: "1",
+                title: "Takoyaki",
+                cuisineType: "Japanese",
+                cookingTime: 10,
+                difficulty: "easy",
             },
             {
                 id: "2",

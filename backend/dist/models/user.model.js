@@ -5,9 +5,9 @@ class UserModel {
     constructor() {
         this.users = [
             {
-                id: "1",
-                username: "Risa",
-                password: "12345",
+                id: "19988b16-58b9-4b2c-9147-3a84307982ae",
+                username: "Taro",
+                password: "$2b$12$pFz/I1OL7CJ87fVaAwHrWutA3vZwR.LI3cpsBBzXH6uP5rbzJOyP2",
             },
         ];
     }
