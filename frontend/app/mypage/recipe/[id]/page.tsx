@@ -12,7 +12,7 @@ type RecipeFormData = {
   title: string;
   cuisineType: string;
   cookingTime: number;
-  difficulty: "easy" | "medium" | "advance";
+  difficulty: "Easy" | "Medium" | "Advanced";
   image: string;
 };
 
@@ -183,7 +183,7 @@ const RecipeEditForm = () => {
         <div className="mb-4">
           <label
             htmlFor="title"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-Medium text-gray-700"
           >
             Title
           </label>
@@ -201,7 +201,7 @@ const RecipeEditForm = () => {
         <div className="mb-4">
           <label
             htmlFor="cuisineType"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-Medium text-gray-700"
           >
             Cuisine Type
           </label>
@@ -219,7 +219,7 @@ const RecipeEditForm = () => {
         <div className="mb-4">
           <label
             htmlFor="cookingTime"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-Medium text-gray-700"
           >
             Cooking Time (minutes)
           </label>
@@ -238,7 +238,7 @@ const RecipeEditForm = () => {
         <div className="mb-4">
           <label
             htmlFor="difficulty"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-Medium text-gray-700"
           >
             Difficulty
           </label>
@@ -249,16 +249,16 @@ const RecipeEditForm = () => {
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           >
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="advance">Hard</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Advanced">Hard</option>
           </select>
         </div>
 
         <div className="mb-4">
           <label
             htmlFor="image"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-Medium text-gray-700"
           >
             Image
           </label>

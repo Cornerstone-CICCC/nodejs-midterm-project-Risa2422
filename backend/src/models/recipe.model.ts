@@ -10,7 +10,7 @@ class RecipeModel {
       title: "Pho",
       cuisineType: "Vietnamese",
       cookingTime: 20,
-      difficulty: "easy",
+      difficulty: "Medium",
       image:
         "https://res.cloudinary.com/do9wpvadq/image/upload/v1731754888/uploads/xfh6n2r4ammduqaktptq.jpg",
     },
@@ -20,7 +20,7 @@ class RecipeModel {
       title: "Okoniyaki",
       cuisineType: "Japanese",
       cookingTime: 10,
-      difficulty: "easy",
+      difficulty: "Easy",
       image:
         "https://res.cloudinary.com/do9wpvadq/image/upload/v1731782725/TSU_mayomayookonomi_TP_V4_ntspye.jpg",
     },
@@ -30,7 +30,7 @@ class RecipeModel {
       title: "Bibimbap",
       cuisineType: "Korean",
       cookingTime: 10,
-      difficulty: "easy",
+      difficulty: "Easy",
       image:
         "https://res.cloudinary.com/do9wpvadq/image/upload/v1731782785/pexels-becerragoveaphoto-5773960_ecdfsd.jpg",
     },
@@ -40,7 +40,7 @@ class RecipeModel {
       title: "Toppoki",
       cuisineType: "Korean",
       cookingTime: 10,
-      difficulty: "easy",
+      difficulty: "Easy",
       image:
         "https://res.cloudinary.com/do9wpvadq/image/upload/v1731782912/pexels-pip-pip-1842307-12963392_fsj5il.jpg",
     },
@@ -50,7 +50,7 @@ class RecipeModel {
       title: "Tacos",
       cuisineType: "Mexican",
       cookingTime: 20,
-      difficulty: "easy",
+      difficulty: "Easy",
       image:
         "https://res.cloudinary.com/do9wpvadq/image/upload/v1731783192/pexels-cristian-rojas-7613568_nc6q98.jpg",
     },
@@ -60,7 +60,7 @@ class RecipeModel {
       title: "Bubble Tea",
       cuisineType: "Taiwanese",
       cookingTime: 20,
-      difficulty: "easy",
+      difficulty: "Easy",
       image:
         "https://res.cloudinary.com/do9wpvadq/image/upload/v1731783567/pexels-bam-awey-348707-4013151_pepa84.jpg",
     },
@@ -70,7 +70,7 @@ class RecipeModel {
       title: "Adobo",
       cuisineType: "Filipino",
       cookingTime: 20,
-      difficulty: "easy",
+      difficulty: "Advanced",
       image:
         "https://res.cloudinary.com/do9wpvadq/image/upload/v1731783740/pexels-fox-58267-6525933_lufl5d.jpg",
     },
@@ -81,7 +81,7 @@ class RecipeModel {
       title: "Tamales",
       cuisineType: "Costa Rican",
       cookingTime: 20,
-      difficulty: "easy",
+      difficulty: "Easy",
       image:
         "https://res.cloudinary.com/do9wpvadq/image/upload/v1731783861/pexels-gonzalogfg-14179987_g3ardf.jpg",
     },

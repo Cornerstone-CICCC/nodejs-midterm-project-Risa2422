@@ -4,6 +4,6 @@ export type Recipe = {
   title: string;
   cuisineType: string;
   cookingTime: number;
-  difficulty: "easy" | "medium" | "advance";
+  difficulty: "Easy" | "Medium" | "Advanced";
   image: string;
 };

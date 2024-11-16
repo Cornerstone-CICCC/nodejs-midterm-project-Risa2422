@@ -9,7 +9,7 @@ type RecipeFormData = {
   title: string;
   cuisineType: string;
   cookingTime: number;
-  difficulty: "easy" | "medium" | "advance";
+  difficulty: "Easy" | "Medium" | "Advanced";
   image: string;
 };
 
@@ -23,7 +23,7 @@ const RecipeCreateForm = () => {
     title: "",
     cuisineType: "",
     cookingTime: 0,
-    difficulty: "easy",
+    difficulty: "Easy",
     image: "",
   });
 
@@ -105,7 +105,7 @@ const RecipeCreateForm = () => {
         title: "",
         cuisineType: "",
         cookingTime: 0,
-        difficulty: "easy",
+        difficulty: "Easy",
         image: "",
       });
 
@@ -197,9 +197,9 @@ const RecipeCreateForm = () => {
             onChange={handleChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           >
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="advance">Hard</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Advanced">Hard</option>
           </select>
         </div>
 
