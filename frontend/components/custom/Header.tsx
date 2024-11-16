@@ -3,19 +3,40 @@ import React, { useContext, useState } from "react";
 import LoginModal from "./LoginModal";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SidebarContext } from "../../provider";
+import { UserContext } from "../../provider";
 import { useEffect } from "react";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { loggedUserId, setUserId } = useContext(SidebarContext);
+  const { loggedUserId, setUserId } = useContext(UserContext) || {
+    loggedUserId: null,
+    setUserId: () => {},
+  };
 
   const router = useRouter();
 
   useEffect(() => {
-    setIsLoggedIn(true);
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/user/auth", {
+          credentials: "include",
+        });
+
+        if (response.ok) {
+          const userId = await response.json();
+          setUserId(userId);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, [loggedUserId]);
 
   const handleLogin = () => {
@@ -57,10 +78,10 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               <li>
-                <button onClick={handleLogout}>Log out</button>
+                <Link href={`/mypage/${loggedUserId}`}>My Recipes</Link>
               </li>
               <li>
-                <Link href={`/mypage/${loggedUserId}`}>My Recipes</Link>
+                <button onClick={handleLogout}>Log out</button>
               </li>
             </>
           ) : (

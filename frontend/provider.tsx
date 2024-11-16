@@ -1,9 +1,9 @@
 "use client";
 import { createContext, PropsWithChildren, useState } from "react";
 
-const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
-interface SidebarContextType {
+interface UserContextType {
   loggedUserId: string | null;
   setUserId: React.Dispatch<React.SetStateAction<string | null>>;
 }
@@ -12,11 +12,11 @@ const Provider: React.FC<PropsWithChildren> = ({ children }) => {
   const [loggedUserId, setUserId] = useState<string | null>("0");
 
   return (
-    <SidebarContext.Provider value={{ loggedUserId, setUserId }}>
+    <UserContext.Provider value={{ loggedUserId, setUserId }}>
       {children}
-    </SidebarContext.Provider>
+    </UserContext.Provider>
   );
 };
 
 export default Provider;
-export { SidebarContext };
+export { UserContext };

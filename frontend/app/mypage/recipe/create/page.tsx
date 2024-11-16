@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarContext } from "@/provider";
+import { UserContext } from "@/provider";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 
@@ -13,9 +13,11 @@ type RecipeFormData = {
 };
 
 const RecipeCreateForm = () => {
-  const { loggedUserId } = useContext(SidebarContext);
+  const { loggedUserId } = useContext(UserContext) || {
+    loggedUserId: null,
+  };
   const [formData, setFormData] = useState<RecipeFormData>({
-    userId: loggedUserId,
+    userId: loggedUserId as string,
     title: "",
     cuisineType: "",
     cookingTime: 0,

@@ -13,7 +13,6 @@ const getRecipes = (req, res) => {
 const getRecipeById = (req, res) => {
     const { id } = req.params;
     const recipe = recipe_model_1.default.findRecipeById(id);
-    console.log("comming", id);
     if (!recipe) {
         res.status(404).json({ message: "Recipe not found" });
         return;

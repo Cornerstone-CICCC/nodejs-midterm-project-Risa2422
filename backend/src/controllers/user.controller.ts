@@ -76,10 +76,17 @@ const getUserById = (req: Request<{ id: string }>, res: Response): void => {
   res.json(user);
 };
 
+// Check auth user
+const getUserInfo = (req: Request, res: Response) => {
+  const { userId } = req.session;
+  res.json(userId);
+};
+
 export default {
   getUsers,
   registerUser,
   loginUser,
   logoutUser,
   getUserById,
+  getUserInfo,
 };

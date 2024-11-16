@@ -4,7 +4,7 @@ import { Recipe } from "@/types/recipe";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect, useContext } from "react";
-import { SidebarContext } from "@/provider";
+import { UserContext } from "@/provider";
 
 type RecipeFormData = {
   id: string;
@@ -49,7 +49,9 @@ const RecipeEditForm = () => {
   const [formData, setFormData] = useState<RecipeFormData | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const { loggedUserId } = useContext(SidebarContext);
+  const { loggedUserId } = useContext(UserContext) || {
+    loggedUserId: null,
+  };
 
   useEffect(() => {
     if (id) {

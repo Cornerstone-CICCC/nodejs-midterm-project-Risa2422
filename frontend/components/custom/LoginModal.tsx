@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { SidebarContext } from "../../provider";
+import { UserContext } from "../../provider";
 
 const LoginModal: React.FC<{
   onClose: () => void;
@@ -24,7 +24,9 @@ const LoginModal: React.FC<{
 }> = ({ onClose, setIsLoggedIn, isSignedUp }) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const { loggedUserId, setUserId } = useContext(SidebarContext);
+  const { setUserId } = useContext(UserContext) || {
+    setUserId: () => {},
+  };
 
   const formSchema = z.object({
     username: z.string().min(2, {
@@ -81,9 +83,7 @@ const LoginModal: React.FC<{
 
       const userId = await response.json();
 
-      // ユーザーIDを登録する
-      setUserId(userId); // 型安全な値に渡す
-      console.log(userId, "セットされたよ");
+      setUserId(userId);
 
       setIsLoggedIn(true);
       onClose();
