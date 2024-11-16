@@ -69,6 +69,7 @@ app.post(
         message: "File uploaded successfully!",
         result,
       });
+      
     } catch (error) {
       console.error("Cloudinary upload error:", error);
       res.status(500).json({ success: false, error: (error as Error).message });

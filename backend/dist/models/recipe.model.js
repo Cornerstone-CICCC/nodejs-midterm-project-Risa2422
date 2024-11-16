@@ -11,6 +11,7 @@ class RecipeModel {
                 cuisineType: "Japanese",
                 cookingTime: 10,
                 difficulty: "easy",
+                image: "",
             },
             {
                 id: "2",
@@ -19,6 +20,7 @@ class RecipeModel {
                 cuisineType: "Japanese",
                 cookingTime: 10,
                 difficulty: "easy",
+                image: "",
             },
             {
                 id: "3",
@@ -27,6 +29,7 @@ class RecipeModel {
                 cuisineType: "Korean",
                 cookingTime: 10,
                 difficulty: "easy",
+                image: "",
             },
             {
                 id: "4",
@@ -35,6 +38,7 @@ class RecipeModel {
                 cuisineType: "Korean",
                 cookingTime: 10,
                 difficulty: "easy",
+                image: "",
             },
         ];
     }
@@ -65,6 +69,7 @@ class RecipeModel {
         if (this.recipes[index].id !== newData.id)
             return undefined;
         const updatedArticle = Object.assign(Object.assign({}, this.recipes[index]), newData);
+        console.log(updatedArticle, "update");
         this.recipes[index] = updatedArticle;
         return updatedArticle;
     }

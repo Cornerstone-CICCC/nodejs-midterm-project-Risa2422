@@ -13,10 +13,7 @@ type RecipeFormData = {
   cuisineType: string;
   cookingTime: number;
   difficulty: "easy" | "medium" | "advance";
-};
-
-type RecipeImage = {
-  image: File | null;
+  image: string;
 };
 
 async function getRecipeById(id: string): Promise<Recipe> {
@@ -51,7 +48,7 @@ const RecipeEditForm = () => {
   const params = useParams();
   const id = params.id as string;
   const [formData, setFormData] = useState<RecipeFormData | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null); // To store the selected image file
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { loggedUserId } = useContext(UserContext) || {
@@ -70,6 +67,7 @@ const RecipeEditForm = () => {
             cuisineType: data.cuisineType,
             cookingTime: data.cookingTime,
             difficulty: data.difficulty,
+            image: data.image,
           });
         } catch (error) {
           setError("Failed to load recipe data");
@@ -121,24 +119,13 @@ const RecipeEditForm = () => {
     }
 
     try {
-      let response = await fetch(`http://localhost:3000/recipe/update/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update recipe");
-      }
+      let imageUrl = formData.image;
 
       if (imageFile) {
         const formDataToSubmit = new FormData();
         formDataToSubmit.append("image", imageFile);
 
-        response = await fetch(`http://localhost:3000/upload`, {
+        const response = await fetch(`http://localhost:3000/upload`, {
           method: "POST",
           body: formDataToSubmit,
           credentials: "include",
@@ -147,6 +134,30 @@ const RecipeEditForm = () => {
         if (!response.ok) {
           throw new Error("Failed to upload image");
         }
+
+        const result = await response.json();
+        imageUrl = result.result.url;
+      }
+
+      const updatedFormData = {
+        ...formData,
+        image: imageUrl,
+      };
+
+      const updateResponse = await fetch(
+        `http://localhost:3000/recipe/update/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedFormData),
+          credentials: "include",
+        }
+      );
+
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update recipe");
       }
 
       alert("Recipe updated successfully!");

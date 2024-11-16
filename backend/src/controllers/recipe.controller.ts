@@ -58,6 +58,7 @@ const updateRecipeById = (
 ): void => {
   const { id } = req.params;
   const recipe = recipeModel.edit(id, req.body);
+
   if (!recipe) {
     res.status(404).json({ message: "Recipe not found" });
     return;

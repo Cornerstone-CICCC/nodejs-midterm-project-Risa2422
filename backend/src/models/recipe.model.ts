@@ -11,6 +11,7 @@ class RecipeModel {
       cuisineType: "Japanese",
       cookingTime: 10,
       difficulty: "easy",
+      image: "",
     },
     {
       id: "2",
@@ -19,6 +20,7 @@ class RecipeModel {
       cuisineType: "Japanese",
       cookingTime: 10,
       difficulty: "easy",
+      image: "",
     },
     {
       id: "3",
@@ -27,6 +29,7 @@ class RecipeModel {
       cuisineType: "Korean",
       cookingTime: 10,
       difficulty: "easy",
+      image: "",
     },
     {
       id: "4",
@@ -35,6 +38,7 @@ class RecipeModel {
       cuisineType: "Korean",
       cookingTime: 10,
       difficulty: "easy",
+      image: "",
     },
   ];
 
