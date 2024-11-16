@@ -51,6 +51,7 @@ const RecipeEditForm = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { loggedUserId } = useContext(UserContext) || {
     loggedUserId: null,
   };
@@ -69,6 +70,7 @@ const RecipeEditForm = () => {
             difficulty: data.difficulty,
             image: data.image,
           });
+          setImageUrl(data.image);
         } catch (error) {
           setError("Failed to load recipe data");
         }
@@ -94,7 +96,9 @@ const RecipeEditForm = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setImageFile(e.target.files[0]);
+      const file = e.target.files[0];
+      setImageFile(file);
+      setImageUrl(URL.createObjectURL(file));
     }
   };
 
@@ -266,8 +270,16 @@ const RecipeEditForm = () => {
             onChange={handleImageChange}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
+          {imageUrl && (
+            <div className="mt-2">
+              <img
+                src={imageUrl}
+                alt="Selected image preview"
+                className="max-w-full h-auto"
+              />
+            </div>
+          )}
         </div>
-
         <button
           type="submit"
           disabled={isSubmitting}

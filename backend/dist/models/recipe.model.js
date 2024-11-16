@@ -69,7 +69,6 @@ class RecipeModel {
         if (this.recipes[index].id !== newData.id)
             return undefined;
         const updatedArticle = Object.assign(Object.assign({}, this.recipes[index]), newData);
-        console.log(updatedArticle, "update");
         this.recipes[index] = updatedArticle;
         return updatedArticle;
     }
