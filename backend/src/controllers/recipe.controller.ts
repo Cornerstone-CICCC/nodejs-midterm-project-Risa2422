@@ -13,7 +13,6 @@ const getRecipeById = (req: Request<{ id: string }>, res: Response): void => {
   const { id } = req.params;
   const recipe = recipeModel.findRecipeById(id);
 
-  console.log("comming", id);
   if (!recipe) {
     res.status(404).json({ message: "Recipe not found" });
     return;
@@ -48,7 +47,6 @@ const addRecipe = (
     return;
   }
 
-  console.log(req.body);
   const recipe = recipeModel.createRecipe(req.body);
   res.status(201).json(recipe);
 };
@@ -59,7 +57,6 @@ const updateRecipeById = (
   res: Response
 ): void => {
   const { id } = req.params;
-  console.log(req.body);
   const recipe = recipeModel.edit(id, req.body);
   if (!recipe) {
     res.status(404).json({ message: "Recipe not found" });

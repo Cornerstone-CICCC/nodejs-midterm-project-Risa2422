@@ -15,6 +15,10 @@ type RecipeFormData = {
   difficulty: "easy" | "medium" | "advance";
 };
 
+type RecipeImage = {
+  image: File | null;
+};
+
 async function getRecipeById(id: string): Promise<Recipe> {
   const response = await fetch(`http://localhost:3000/recipe/${id}`, {
     credentials: "include",
@@ -47,6 +51,7 @@ const RecipeEditForm = () => {
   const params = useParams();
   const id = params.id as string;
   const [formData, setFormData] = useState<RecipeFormData | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null); // To store the selected image file
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { loggedUserId } = useContext(UserContext) || {
@@ -89,6 +94,12 @@ const RecipeEditForm = () => {
     }
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImageFile(e.target.files[0]);
+    }
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -110,20 +121,32 @@ const RecipeEditForm = () => {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/recipe/update/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-          credentials: "include",
-        }
-      );
+      let response = await fetch(`http://localhost:3000/recipe/update/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
 
       if (!response.ok) {
         throw new Error("Failed to update recipe");
+      }
+
+      if (imageFile) {
+        const formDataToSubmit = new FormData();
+        formDataToSubmit.append("image", imageFile);
+
+        response = await fetch(`http://localhost:3000/upload`, {
+          method: "POST",
+          body: formDataToSubmit,
+          credentials: "include",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to upload image");
+        }
       }
 
       alert("Recipe updated successfully!");
@@ -215,6 +238,23 @@ const RecipeEditForm = () => {
             <option value="medium">Medium</option>
             <option value="advance">Hard</option>
           </select>
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="image"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Image
+          </label>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/jpeg, image/png"
+            onChange={handleImageChange}
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          />
         </div>
 
         <button

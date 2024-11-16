@@ -37,14 +37,12 @@ const addRecipe = (req, res) => {
         res.status(400).json({ message: "Missing title or user id" });
         return;
     }
-    console.log(req.body);
     const recipe = recipe_model_1.default.createRecipe(req.body);
     res.status(201).json(recipe);
 };
 // Update recipe by id
 const updateRecipeById = (req, res) => {
     const { id } = req.params;
-    console.log(req.body);
     const recipe = recipe_model_1.default.edit(id, req.body);
     if (!recipe) {
         res.status(404).json({ message: "Recipe not found" });

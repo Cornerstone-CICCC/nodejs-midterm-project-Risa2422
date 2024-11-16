@@ -5,4 +5,5 @@ export type Recipe = {
   cuisineType: string;
   cookingTime: number;
   difficulty: "easy" | "medium" | "advance";
+  recipeImage: File | null;
 };
