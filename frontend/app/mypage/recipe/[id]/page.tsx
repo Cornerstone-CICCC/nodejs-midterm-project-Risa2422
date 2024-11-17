@@ -14,6 +14,11 @@ type RecipeFormData = {
   cookingTime: number;
   difficulty: "Easy" | "Medium" | "Advanced";
   image: string;
+  date: Date;
+  price: number;
+  about: string;
+  ingredients: string;
+  procedure: string;
 };
 
 async function getRecipeById(id: string): Promise<Recipe> {
@@ -69,6 +74,11 @@ const RecipeEditForm = () => {
             cookingTime: data.cookingTime,
             difficulty: data.difficulty,
             image: data.image,
+            date: data.date,
+            price: data.price,
+            about: data.about,
+            ingredients: data.ingredients,
+            procedure: data.procedure,
           });
           setImageUrl(data.image);
         } catch (error) {

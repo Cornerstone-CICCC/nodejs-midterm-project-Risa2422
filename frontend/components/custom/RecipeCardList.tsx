@@ -23,6 +23,15 @@ async function getAllRecipes() {
   return data;
 }
 
+async function getAllName() {
+  const response = await fetch(
+    "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
+  );
+
+  const data = await response.json();
+  console.log(data);
+}
+
 async function getRecipesByUserId(id: string) {
   const response = await fetch(`http://localhost:3000/recipe/user/${id}`, {
     credentials: "include",
@@ -63,13 +72,14 @@ const RecipeCardList: React.FC<RecipeCardListProps> = ({
     };
 
     fetchData();
+    getAllName();
   }, [isMypage, userId]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="grid grid-flow-row gap-9 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid grid-flow-row gap-6 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {recipes.length === 0 ? (
         <div>No recipes available.</div>
       ) : (

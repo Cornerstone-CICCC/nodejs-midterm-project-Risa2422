@@ -11,6 +11,11 @@ type RecipeFormData = {
   cookingTime: number;
   difficulty: "Easy" | "Medium" | "Advanced";
   image: string;
+  date: Date;
+  price: number;
+  about: string;
+  ingredients: string;
+  procedure: string;
 };
 
 const RecipeCreateForm = () => {
@@ -25,6 +30,11 @@ const RecipeCreateForm = () => {
     cookingTime: 0,
     difficulty: "Easy",
     image: "",
+    date: new Date(),
+    price: 0,
+    about: "",
+    ingredients: "",
+    procedure: "",
   });
 
   const router = useRouter();
@@ -107,6 +117,11 @@ const RecipeCreateForm = () => {
         cookingTime: 0,
         difficulty: "Easy",
         image: "",
+        date: new Date(),
+        price: 0,
+        about: "",
+        ingredients: "",
+        procedure: "",
       });
 
       setError(null);
