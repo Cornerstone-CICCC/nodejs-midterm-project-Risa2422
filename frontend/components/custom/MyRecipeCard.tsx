@@ -2,6 +2,7 @@ import { Recipe } from "@/types/recipe";
 import React from "react";
 import Link from "next/link";
 import { CldImage } from "next-cloudinary";
+import { format } from "date-fns";
 
 type Props = {
   recipe: Recipe;
@@ -27,11 +28,13 @@ const MyRecipeCard = (props: Props) => {
             <h2 className="text-lg font-semibold text-gray-800 overflow-auto">
               {props.recipe.title}
             </h2>
-            <div className="flex items-center gap-0.5">
+            <div className="flex gap-0.5">
               <div className="w-4">
                 <img src="/calendar.png" alt="location" />
               </div>
-              <p className="text-sm">{props.recipe.date.toString()}</p>
+              <p className="text-sm items-end">
+                {format(new Date(props.recipe.date), "yyyy-MM-dd")}
+              </p>
             </div>
             <Link
               href={`http://localhost:3002/mypage/recipe/${props.recipe.id}`}

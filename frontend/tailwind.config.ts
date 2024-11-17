@@ -52,6 +52,7 @@ export default {
         },
         customRed: "#CA1C1C",
         customEcruWhite: "#F5F1E7",
+        customRose: "#CB5656",
       },
       borderRadius: {
   			lg: 'var(--radius)',

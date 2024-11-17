@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Recipe } from "../../../types/recipe";
 import { useParams } from "next/navigation";
+import { format } from "date-fns";
 
 type Params = {
   id?: string;
@@ -117,7 +118,7 @@ const RecipeDetail = () => {
                     className="w-full h-full"
                   />
                 </div>
-                {recipe.date.toString()}
+                <p> {format(new Date(recipe.date), "yyyy-MM-dd")}</p>
               </li>
 
               <li className="flex gap-2 items-center">

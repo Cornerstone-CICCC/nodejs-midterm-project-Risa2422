@@ -3,7 +3,6 @@ import { Recipe } from "../../types/recipe";
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
 import MyRecipeCard from "./MyRecipeCard";
-import { useParams } from "next/navigation";
 
 type RecipeCardListProps = {
   isMypage: boolean;

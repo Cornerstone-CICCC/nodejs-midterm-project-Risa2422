@@ -2,7 +2,7 @@ import RecipeCardList from "../components/custom/RecipeCardList";
 
 export default function Home() {
   return (
-    <div className=" p-16">
+    <div className="p-16">
       <main className="flex flex-col row-start-2 items-center">
         {/* <Search /> */}
         <div className="flex flex-col items-center gap-1 mb-4">
