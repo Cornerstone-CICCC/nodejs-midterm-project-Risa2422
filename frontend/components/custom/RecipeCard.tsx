@@ -10,7 +10,7 @@ type Props = {
 const RecipeCard = (props: Props) => {
   return (
     <Link href={`/recipe/${props.recipe.id}`}>
-      <div className="my-3 w-[220px] rounded  bg-white dark:bg-gray-800 duration-300 hover:-translate-y-1 relative">
+      <div className="my-3 md:w-[220px] rounded  bg-white dark:bg-gray-800 duration-300 hover:-translate-y-1 relative">
         <CldImage
           src={props.recipe.image}
           width="500"

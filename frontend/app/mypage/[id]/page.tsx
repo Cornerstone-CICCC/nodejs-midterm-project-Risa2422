@@ -13,14 +13,9 @@ const MyRecipe = () => {
   }
 
   return (
-    <>
-      <Link href={`http://localhost:3002/mypage/recipe/create`}>
-        <button className="bg-blue-500 text-white py-2 px-4 rounded-md">
-          Add
-        </button>
-      </Link>
+    <main className="flex flex-col items-center p-16">  
       <RecipeCardList isMypage={true} userId={userId} />
-    </>
+    </main>
   );
 };
 

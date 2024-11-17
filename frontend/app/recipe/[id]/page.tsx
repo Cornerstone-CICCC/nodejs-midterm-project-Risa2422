@@ -64,7 +64,7 @@ const RecipeDetail = () => {
             <img
               src={recipe.image}
               alt="recipe image "
-              className="object-cover object-center-center w-full h-full"
+              className="object-cover object-center w-full h-[18rem] lg:h-[24rem]"
             />
           </div>
           <div className="flex flex-col gap-3 py-6 lg:px-4 basis-[30%] ">

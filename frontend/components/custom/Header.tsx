@@ -78,6 +78,19 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               <li>
+                <Link href={`/mypage/recipe/create`}>
+                  <button className="flex items-center justify-center basis-12 bg-customRose rounded-full py-0.5 px-2.5">
+                    <p className="text-white">Add</p>
+                    <img
+                      src="/add.png"
+                      alt="calendar"
+                      className="w-4 h-4 object-contain pl-1"
+                    />
+                    
+                  </button>
+                </Link>
+              </li>
+              <li>
                 <Link href={`/mypage/${loggedUserId}`}>My Recipes</Link>
               </li>
               <li>
