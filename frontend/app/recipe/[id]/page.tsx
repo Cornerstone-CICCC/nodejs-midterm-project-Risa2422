@@ -56,10 +56,10 @@ const RecipeDetail = () => {
   }
 
   return (
-    <div className="py-16 px-[14rem]">
+    <div className="py-16 px-10 lg:px-[13rem]">
       <div className="w-full">
         <h2 className="text-3xl">{recipe.title}</h2>
-        <div className="flex h-[24rem] w-full mt-3">
+        <div className="flex flex-col lg:flex-row w-full mt-3">
           <div className="flex basis-[70%]">
             <img
               src={recipe.image}
@@ -67,7 +67,7 @@ const RecipeDetail = () => {
               className="object-cover object-center-center w-full h-full"
             />
           </div>
-          <div className="flex flex-col gap-3 py-6 px-4 basis-[30%] ">
+          <div className="flex flex-col gap-3 py-6 lg:px-4 basis-[30%] ">
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center">
                 <div className="flex basis-5">
@@ -123,7 +123,7 @@ const RecipeDetail = () => {
               <li className="flex gap-2 items-center">
                 <div className="flex basis-5">
                   <img
-                    src="/location-dark.png"
+                    src="/person.png"
                     alt="location"
                     className="w-full h-full"
                   />
@@ -131,22 +131,26 @@ const RecipeDetail = () => {
                 {recipe.userId}
               </li>
             </ul>
-            <p className="italic text-gray-700 text-sm leading-6">{recipe.about}</p>
+            <p className="italic text-gray-700 text-sm leading-6">
+              {recipe.about}
+            </p>
           </div>
         </div>
       </div>
-      <div className="flex mt-10">
+      <div className="flex flex-col lg:flex-row mt-10">
         <div className="flex flex-col basis-[70%] py-4">
           <h2 className="text-2xl border-b w-fit border-customRed">
             Procedure
           </h2>
           <div className="whitespace-pre-line mt-4">{recipe.procedure}</div>
         </div>
-        <div className="flex flex-col basis-[30%] p-4 bg-customEcruWhite">
-          <h2 className="text-2xl ">
-            Ingredients<span className="text-sm"> (serves1)</span>
-          </h2>
-          <div className="whitespace-pre-line mt-4">{recipe.ingredients}</div>
+        <div className="flex flex-col basis-[30%]">
+          <div className=" bg-customEcruWhite  lg:ml-4 p-4">
+            <h2 className="text-2xl ">
+              Ingredients<span className="text-sm"> (serves1)</span>
+            </h2>
+            <div className="whitespace-pre-line mt-4">{recipe.ingredients}</div>
+          </div>
         </div>
       </div>
     </div>

@@ -51,7 +51,7 @@ export default {
           "5": "hsl(var(--chart-5))",
         },
         customRed: "#CA1C1C",
-        customEcruWhite: "F5F1E7",
+        customEcruWhite: "#F5F1E7",
       },
       borderRadius: {
   			lg: 'var(--radius)',
