@@ -44,7 +44,6 @@ type RecipeFormData = {
 const RecipeCreateForm = () => {
   const { loggedUserId } = useContext(UserContext) || { loggedUserId: null };
   const router = useRouter();
-
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -53,11 +52,11 @@ const RecipeCreateForm = () => {
   const formSchema = z.object({
     title: z.string().min(1, { message: "Recipe title is required" }),
     cuisineType: z.string().min(1, { message: "Cuisine type is required" }),
-    cookingTime: z
-      .number()
-      .positive({ message: "Cooking time must be a positive number" }),
+    // cookingTime: z
+    //   .number()
+    //   .positive({ message: "Cooking time must be a positive number" }),
     difficulty: z.enum(["Easy", "Medium", "Advanced"]),
-    price: z.number().positive({ message: "Price must be a positive number" }),
+    // price: z.number().positive({ message: "Price must be a positive number" }),
     about: z.string().min(1, { message: "About description is required" }),
     ingredients: z.string().min(1, { message: "Ingredients are required" }),
     procedure: z.string().min(1, { message: "Procedure is required" }),
@@ -87,25 +86,13 @@ const RecipeCreateForm = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = e.target;
-    if (type === "number") {
-      form.setValue(name, Number(value), { shouldValidate: true });
-    } else {
-      form.setValue(name, value, { shouldValidate: true });
-    }
-  };
-
   async function handleSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    setError(null);
 
     const updatedData = {
-      ...data,
+      ...form.getValues(),
       date: new Date(),
     };
-
-    console.log(updatedData);
 
     try {
       let imageUrl = updatedData.image;
@@ -213,9 +200,9 @@ const RecipeCreateForm = () => {
             control={form.control}
             name="cuisineType"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-[200px]">
                 <FormLabel>
-                  Cuisine Category<span className="text-red-500">*</span>
+                  Cuisine Category<span className="text-red-500 ">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input {...field} />
@@ -229,12 +216,15 @@ const RecipeCreateForm = () => {
             control={form.control}
             name="price"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-[200px]">
                 <FormLabel>
                   Total Price<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" onChange={handleChange} />
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600">$</span>
+                    <Input {...field} type="number" />
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -245,12 +235,12 @@ const RecipeCreateForm = () => {
             control={form.control}
             name="cookingTime"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-[200px]">
                 <FormLabel>
                   Total Time<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" onChange={handleChange} />
+                  <Input {...field} type="number" />
                 </FormControl>
                 <FormDescription>
                   Please enter total time in minutes.
@@ -269,8 +259,11 @@ const RecipeCreateForm = () => {
                   Cooking Difficulty<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Select {...field}>
-                    <SelectTrigger className="w-[180px]">
+                  <Select
+                    value={field.value || ""}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger className="w-[200px]">
                       <SelectValue placeholder="Select difficulty level" />
                     </SelectTrigger>
                     <SelectContent>

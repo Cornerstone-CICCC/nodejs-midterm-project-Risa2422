@@ -52,7 +52,6 @@ app.post(
   async (req: Request, res: Response): Promise<void> => {
     try {
       const file = req.file?.path;
-      console.log(file);
       if (!file) {
         res.status(400).json({ success: false, message: "No file uploaded" });
         return;
@@ -61,8 +60,6 @@ app.post(
       const result = await cloudinary.uploader.upload(file, {
         folder: "uploads",
       });
-
-      console.log("result", result.url);
 
       res.status(200).json({
         success: true,

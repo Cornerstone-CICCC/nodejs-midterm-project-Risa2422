@@ -7,7 +7,6 @@ import { UserContext } from "@/provider";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,7 +15,7 @@ import {
 import { Input } from "../../../../components/ui/input";
 import { Button } from "../../../../components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   Select,
@@ -28,21 +27,6 @@ import {
   SelectValue,
 } from "../../../../components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-
-type RecipeFormData = {
-  id: string;
-  userId: string;
-  title: string;
-  cuisineType: string;
-  cookingTime: number;
-  difficulty: "Easy" | "Medium" | "Advanced";
-  image: string;
-  date: Date;
-  price: number;
-  about: string;
-  ingredients: string;
-  procedure: string;
-};
 
 async function getRecipeById(id: string): Promise<Recipe> {
   const response = await fetch(`http://localhost:3000/recipe/${id}`, {
@@ -75,48 +59,40 @@ const RecipeEditForm = () => {
   const router = useRouter();
   const params = useParams();
   const id = params.id as string;
-  const [formData, setFormData] = useState<RecipeFormData | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const { loggedUserId } = useContext(UserContext) || {
-    loggedUserId: null,
-  };
+  const { loggedUserId } = useContext(UserContext) || { loggedUserId: null };
 
   const formSchema = z.object({
-    title: z.string().min(1, { message: "Recipe title is required" }),
-    cuisineType: z.string().min(1, { message: "Cuisine type is required" }),
-    // cookingTime: z.number(),
-    difficulty: z.enum(["Easy", "Medium", "Advanced"]),
-    // price: z.number().positive({ message: "Price must be a positive number" }),
-    about: z.string().min(1, { message: "About description is required" }),
-    ingredients: z.string().min(1, { message: "Ingredients are required" }),
-    procedure: z.string().min(1, { message: "Procedure is required" }),
+    title: z
+      .string()
+      .min(1, { message: "Recipe title is required" })
+      .or(z.literal("")),
+    cuisineType: z
+      .string()
+      .min(1, { message: "Cuisine type is required" })
+      .or(z.literal("")),
+    difficulty: z.enum(["Easy", "Medium", "Advanced"]).or(z.literal("")),
+    about: z
+      .string()
+      .min(1, { message: "About description is required" })
+      .or(z.literal("")),
+    ingredients: z
+      .string()
+      .min(1, { message: "Ingredients are required" })
+      .or(z.literal("")),
+    procedure: z
+      .string()
+      .min(1, { message: "Procedure is required" })
+      .or(z.literal("")),
   });
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    const numberFields = ["cookingTime", "price"];
-    const parsedValue = numberFields.includes(name)
-      ? isNaN(parseInt(value))
-        ? 0
-        : parseInt(value)
-      : value;
-      
-    setFormData((prevData) => ({
-      ...prevData!,
-      [name]: parsedValue,
-    }));
-  };
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      id: "",
       title: "",
       cuisineType: "",
       cookingTime: 0,
@@ -135,20 +111,18 @@ const RecipeEditForm = () => {
       const fetchRecipe = async () => {
         try {
           const data = await getRecipeById(id);
-          setFormData({
-            id: data.id,
-            userId: data.userId,
+          form.reset({
+            id: id,
             title: data.title,
             cuisineType: data.cuisineType,
             cookingTime: data.cookingTime,
             difficulty: data.difficulty,
-            image: data.image,
-            date: data.date,
             price: data.price,
             about: data.about,
             ingredients: data.ingredients,
             procedure: data.procedure,
           });
+
           setImageUrl(data.image);
         } catch (error) {
           setError("Failed to load recipe data");
@@ -157,14 +131,9 @@ const RecipeEditForm = () => {
 
       fetchRecipe();
     }
-  }, [id, form]);
-
-  if (!formData) {
-    return <div>Loading...</div>;
-  }
+  }, [id]);
 
   const handleDelete = async () => {
-    if (!id) return;
     try {
       await deleteRecipeById(id);
       alert("Recipe deleted successfully!");
@@ -175,7 +144,7 @@ const RecipeEditForm = () => {
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setImageFile(file);
       setImageUrl(URL.createObjectURL(file));
@@ -186,29 +155,30 @@ const RecipeEditForm = () => {
     setIsSubmitting(true);
 
     const updatedData = {
-      ...formData,
+      ...form.getValues(),
       date: new Date(),
     };
 
     try {
-      let imageUrl = updatedData.image;
-
       if (imageFile) {
-        const formDataToSubmit = new FormData();
-        formDataToSubmit.append("image", imageFile);
+        let imageUrl = updatedData.image;
+        if (imageFile) {
+          const formDataToSubmit = new FormData();
+          formDataToSubmit.append("image", imageFile);
 
-        const response = await fetch(`http://localhost:3000/upload`, {
-          method: "POST",
-          body: formDataToSubmit,
-          credentials: "include",
-        });
+          const response = await fetch(`http://localhost:3000/upload`, {
+            method: "POST",
+            body: formDataToSubmit,
+            credentials: "include",
+          });
 
-        if (!response.ok) {
-          throw new Error("Failed to upload image");
+          if (!response.ok) {
+            throw new Error("Failed to upload image");
+          }
+
+          const result = await response.json();
+          imageUrl = result.result.url;
         }
-
-        const result = await response.json();
-        imageUrl = result.result.url;
       }
 
       const updatedFormData = {
@@ -240,6 +210,10 @@ const RecipeEditForm = () => {
       setIsSubmitting(false);
     }
   };
+
+  if (!form.getValues()) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="mx-auto py-16 px-60 bg-white shadow-lg rounded-lg">
@@ -289,11 +263,8 @@ const RecipeEditForm = () => {
                 <FormControl>
                   <Input
                     {...field}
-                    value={formData.title}
-                    onChange={(e) => {
-                      handleChange(e);
-                      field.onChange(e);
-                    }}
+                    value={field.value || ""}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
@@ -305,18 +276,16 @@ const RecipeEditForm = () => {
             control={form.control}
             name="cuisineType"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-[200px]">
                 <FormLabel>
-                  Cuisine Category<span className="text-red-500">*</span>
+                  Cuisine Category
+                  <span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    value={formData.cuisineType}
-                    onChange={(e) => {
-                      handleChange(e);
-                      field.onChange(e);
-                    }}
+                    value={field.value || ""}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
@@ -328,48 +297,21 @@ const RecipeEditForm = () => {
             control={form.control}
             name="price"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-[200px]">
                 <FormLabel>
                   Total Price<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    value={formData?.price || ""} // 文字列に変換して設定
-                    onChange={(e) => {
-                      handleChange(e); // handleChange で値を処理
-                      field.onChange(e); // React Hook Form の onChange も呼ぶ
-                    }}
-                  />
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600">$</span>
+                    <Input
+                      {...field}
+                      type="number"
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                    />
+                  </div>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="cookingTime"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Total Time<span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    onChange={(e) => {
-                      handleChange(e);
-                      field.onChange(e);
-                    }}
-                    value={formData.cookingTime}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Please enter total time in minutes.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -379,27 +321,20 @@ const RecipeEditForm = () => {
             control={form.control}
             name="difficulty"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  Cooking Difficulty<span className="text-red-500">*</span>
-                </FormLabel>
+              <FormItem className="w-[200px]">
+                <FormLabel>Difficulty</FormLabel>
                 <FormControl>
                   <Select
-                    {...field}
-                    onChange={(e) => {
-                      handleChange(e);
-                      field.onChange(e);
-                    }}
+                    value={field.value || ""}
+                    onValueChange={field.onChange}
                   >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select difficulty level" />
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder="Select difficulty" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="Easy">Easy</SelectItem>
-                        <SelectItem value="Medium">Medium</SelectItem>
-                        <SelectItem value="Advanced">Advanced</SelectItem>
-                      </SelectGroup>
+                      <SelectItem value="Easy">Easy</SelectItem>
+                      <SelectItem value="Medium">Medium</SelectItem>
+                      <SelectItem value="Advanced">Advanced</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -413,22 +348,14 @@ const RecipeEditForm = () => {
             name="about"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  About Recipe<span className="text-red-500">*</span>
-                </FormLabel>
+                <FormLabel>About Recipe</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    value={formData.about}
-                    onChange={(e) => {
-                      handleChange(e);
-                      field.onChange(e);
-                    }}
+                    value={field.value || ""}
+                    onChange={field.onChange}
                   />
                 </FormControl>
-                <FormDescription>
-                  Please enter within 60 characters.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -439,18 +366,12 @@ const RecipeEditForm = () => {
             name="ingredients"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Ingredients<span className="text-red-500">*</span>
-                </FormLabel>
+                <FormLabel>Ingredients</FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
-                    className="h-[200px]"
-                    value={formData.ingredients}
-                    onChange={(e) => {
-                      handleChange(e);
-                      field.onChange(e);
-                    }}
+                    value={field.value || ""}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
@@ -463,28 +384,27 @@ const RecipeEditForm = () => {
             name="procedure"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Procedure<span className="text-red-500">*</span>
-                </FormLabel>
+                <FormLabel>Procedure</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder={`1.Prepare the batter: In a bowl, mix the flour, dashi stock, egg, baking powder, and salt until smooth.\n\n2.Preheat the takoyaki pan: Heat a takoyaki grill or non-stick pan over medium heat. Grease each hole with a little oil.\n\n3.Fill the pan: Pour the batter into each hole, filling them about 3/4 full. Add chopped octopus, tempura scraps, ginger, and green onions into each hole.`}
                     {...field}
-                    className="h-[200px]"
-                    value={formData.procedure}
-                    onChange={(e) => {
-                      handleChange(e);
-                      field.onChange(e);
-                    }}
+                    value={field.value || ""}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Update"}
-          </Button>
+
+          <div className="space-x-4">
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Updating..." : "Update Recipe"}
+            </Button>
+            <Button type="button" variant="destructive" onClick={handleDelete}>
+              Delete Recipe
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

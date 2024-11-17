@@ -28,7 +28,6 @@ async function getAllName() {
   );
 
   const data = await response.json();
-  console.log(data);
 }
 
 async function getRecipesByUserId(id: string) {

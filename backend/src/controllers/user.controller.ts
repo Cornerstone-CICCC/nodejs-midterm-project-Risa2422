@@ -14,7 +14,6 @@ const registerUser = async (
   req: Request<{}, {}, Omit<User, "id">>,
   res: Response
 ): Promise<void> => {
-  console.log(req);
   const { username, password } = req.body;
 
   if (!username || !password) {

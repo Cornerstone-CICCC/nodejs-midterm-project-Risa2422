@@ -21,7 +21,6 @@ const getUsers = (req, res) => {
 };
 // Register
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req);
     const { username, password } = req.body;
     if (!username || !password) {
         res.status(404).json({ message: "Missing username or password" });

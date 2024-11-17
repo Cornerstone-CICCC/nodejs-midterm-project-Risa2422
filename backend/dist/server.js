@@ -53,7 +53,6 @@ app.post("/upload", upload.single("image"), (req, res) => __awaiter(void 0, void
     var _a;
     try {
         const file = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
-        console.log(file);
         if (!file) {
             res.status(400).json({ success: false, message: "No file uploaded" });
             return;
@@ -61,7 +60,6 @@ app.post("/upload", upload.single("image"), (req, res) => __awaiter(void 0, void
         const result = yield cloudinary_1.v2.uploader.upload(file, {
             folder: "uploads",
         });
-        console.log("result", result.url);
         res.status(200).json({
             success: true,
             message: "File uploaded successfully!",
