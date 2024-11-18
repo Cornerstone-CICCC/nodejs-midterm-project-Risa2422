@@ -1,4 +1,5 @@
 "use client";
+
 import { Recipe } from "../../types/recipe";
 import React, { useEffect, useState } from "react";
 import RecipeCard from "./RecipeCard";
@@ -7,6 +8,7 @@ import MyRecipeCard from "./MyRecipeCard";
 type RecipeCardListProps = {
   isMypage: boolean;
   userId: string;
+  searchInput: string;
 };
 
 async function getAllRecipes() {
@@ -28,7 +30,7 @@ async function getRecipesByUserId(id: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch recipes");
+    throw new Error("No Recipes");
   }
 
   const data: Recipe[] = await response.json();
@@ -38,6 +40,7 @@ async function getRecipesByUserId(id: string) {
 const RecipeCardList: React.FC<RecipeCardListProps> = ({
   isMypage,
   userId,
+  searchInput,
 }) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,12 +50,24 @@ const RecipeCardList: React.FC<RecipeCardListProps> = ({
     const fetchData = async () => {
       try {
         setLoading(true);
-        let fetchedRecipes;
+        let fetchedRecipes: Recipe[];
+
         if (isMypage) {
           fetchedRecipes = await getRecipesByUserId(userId);
         } else {
           fetchedRecipes = await getAllRecipes();
         }
+
+        if (searchInput) {
+          fetchedRecipes = fetchedRecipes.filter(
+            (recipe) =>
+              recipe.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+              recipe.cuisineType
+                .toLowerCase()
+                .includes(searchInput.toLowerCase())
+          );
+        }
+
         setRecipes(fetchedRecipes);
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -66,8 +81,7 @@ const RecipeCardList: React.FC<RecipeCardListProps> = ({
     };
 
     fetchData();
-  }, [isMypage, userId]);
-
+  }, [isMypage, userId, searchInput]);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 

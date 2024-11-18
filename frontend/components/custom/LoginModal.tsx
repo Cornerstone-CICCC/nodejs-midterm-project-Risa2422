@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext, useState } from "react";
-import { Form } from "../ui/form";
+import { Form, FormDescription } from "../ui/form";
 import {
   FormControl,
   FormField,
@@ -63,6 +63,12 @@ const LoginModal: React.FC<{
           body: JSON.stringify(formData),
         });
 
+        if (response.status === 409) {
+          alert("The account already exist.");
+          form.reset();
+          return;
+        }
+
         if (!response.ok) {
           throw new Error("Failed to register");
         }
@@ -98,12 +104,12 @@ const LoginModal: React.FC<{
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-9 rounded-lg w-96">
+      <div className="bg-white px-8 pt-8 pb-10 rounded-lg w-96">
         <Form {...form}>
           <button onClick={onClose}>
             <img src="/arrow.png" alt="Back" className="w-5" />
           </button>
-          <h2 className="text-2xl mb-4 font-semibold tracking-wider font-playfair mt-3">
+          <h2 className="text-2xl mb-4 font-semibold tracking-wider font-playfair mt-1">
             {isSignedUp ? "Sign up" : "Log in"}
           </h2>
           <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-7">
@@ -130,6 +136,9 @@ const LoginModal: React.FC<{
                     <Input {...field} type="password" />
                   </FormControl>
                   <FormMessage />
+                  <FormDescription>
+                    Password must be at least 6 characters.
+                  </FormDescription>
                 </FormItem>
               )}
             />

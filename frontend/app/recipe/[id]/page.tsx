@@ -169,17 +169,21 @@ const RecipeDetail = () => {
       </div>
       <div className="flex flex-col lg:flex-row mt-10">
         <div className="flex flex-col basis-[70%] py-4">
-          <h2 className="text-2xl border-b w-fit border-customRed font-semibold font-playfair tracking-wide">
+          <h2 className="text-2xl mb-2 border-b w-fit border-customRed font-semibold font-playfair tracking-wide">
             Procedure
           </h2>
-          <div className="whitespace-pre-line mt-4">{recipe.procedure}</div>
+          <div className="italic whitespace-pre-line mt-4">
+            {recipe.procedure}
+          </div>
         </div>
-        <div className="flex flex-col basis-[30%]">
-          <div className=" bg-customEcruWhite  lg:ml-4 p-4">
-            <h2 className="text-2xl font-semibold font-playfair tracking-wide">
-              Ingredients<span className="text-sm"> (serves1)</span>
+        <div className="flex flex-col basis-[30%] ">
+          <div className=" bg-customEcruWhite  lg:ml-4 py-6 px-4 rounded">
+            <h2 className="text-2xl mb-2 font-semibold font-playfair tracking-wide">
+              Ingredients<span className="text-sm">(serves 1)</span>
             </h2>
-            <div className="whitespace-pre-line mt-4">{recipe.ingredients}</div>
+            <div className="whitespace-pre-line mt-4 text-md">
+              {recipe.ingredients}
+            </div>
           </div>
         </div>
       </div>

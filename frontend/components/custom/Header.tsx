@@ -145,9 +145,9 @@ const Header = () => {
     <header className="flex p-4 border-b justify-between items-center">
       <Link
         href="/"
-        className="pl-4 md:pl-[10vw] lg:pl-[17vw] text-sm text-gray-600 font-semibold hover:text-gray-500"
+        className="pl-4 md:pl-[10vw] lg:pl-[17vw] text-md text-red-600 font-bold hover:text-gray-500"
       >
-        logo
+        GlobalBites
       </Link>
 
       <nav className="hidden md:block pr-[10vw] lg:pr-[17vw]">
