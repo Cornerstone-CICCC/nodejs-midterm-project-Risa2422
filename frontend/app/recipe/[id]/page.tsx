@@ -5,6 +5,7 @@ import { Recipe } from "../../../types/recipe";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import Link from "next/link";
+import { User } from "@/types/user";
 
 type Params = {
   id?: string;
@@ -23,11 +24,26 @@ async function getRecipeById(id: string): Promise<Recipe> {
   return data;
 }
 
+async function getUserNameById(id: string): Promise<User> {
+  const response = await fetch(`http://localhost:3000/user/${id}`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recipe");
+  }
+
+  const data: User = await response.json();
+  return data;
+}
+
+let userName = "";
 const RecipeDetail = () => {
   const { id } = useParams<Params>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>("");
 
   useEffect(() => {
     if (id) {
@@ -35,12 +51,15 @@ const RecipeDetail = () => {
         try {
           const fetchedRecipe = await getRecipeById(id);
           setRecipe(fetchedRecipe);
+          const userData = await getUserNameById(fetchedRecipe.userId);
+          setUserName(userData.username);
         } catch (err) {
           setError("Failed to fetch recipe");
         } finally {
           setLoading(false);
         }
       };
+
       fetchRecipe();
     }
   }, [id]);
@@ -139,7 +158,7 @@ const RecipeDetail = () => {
                     className="w-full h-full"
                   />
                 </div>
-                {recipe.userId}
+                {userName}
               </li>
             </ul>
             <p className="italic text-gray-700 text-sm leading-6">

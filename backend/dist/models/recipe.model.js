@@ -6,7 +6,7 @@ class RecipeModel {
         this.recipes = [
             {
                 id: "1",
-                userId: "1",
+                userId: "19988b16-58b9-4b2c-9147-3a84307982ae",
                 title: "Pho",
                 cuisineType: "Vietnamese",
                 cookingTime: 20,
@@ -20,7 +20,7 @@ class RecipeModel {
             },
             {
                 id: "2",
-                userId: "2",
+                userId: "19988b16-58b9-4b2c-9147-3a84307982ae",
                 title: "Okoniyaki",
                 cuisineType: "Japanese",
                 cookingTime: 10,
