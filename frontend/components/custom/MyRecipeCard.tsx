@@ -24,8 +24,8 @@ const MyRecipeCard = (props: Props) => {
             }}
             alt="recipe image"
           />
-          <div className="py-3 px-2 flex flex-col ">
-            <h2 className="text-lg font-semibold text-gray-800 overflow-auto">
+          <div className="py-3 px-2 flex flex-col gap-1">
+            <h2 className="text-lg font-semibold tracking-wider font-playfair text-gray-800 overflow-auto">
               {props.recipe.title}
             </h2>
             <div className="flex gap-0.5">

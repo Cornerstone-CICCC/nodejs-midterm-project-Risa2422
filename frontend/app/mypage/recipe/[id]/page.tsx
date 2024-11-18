@@ -217,7 +217,9 @@ const RecipeEditForm = () => {
 
   return (
     <div className="mx-auto py-16 px-60 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Edit Recipe</h2>
+      <h2 className="text-2xl font-semibold font-playfair tracking-wide mb-4">
+        Edit Recipe
+      </h2>
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
       <Form {...form}>
@@ -227,7 +229,9 @@ const RecipeEditForm = () => {
             name="image"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image</FormLabel>
+                <FormLabel>
+                  Image <span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -322,7 +326,9 @@ const RecipeEditForm = () => {
             name="difficulty"
             render={({ field }) => (
               <FormItem className="w-[200px]">
-                <FormLabel>Difficulty</FormLabel>
+                <FormLabel>
+                  Difficulty <span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
                   <Select
                     value={field.value || ""}
@@ -348,7 +354,9 @@ const RecipeEditForm = () => {
             name="about"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>About Recipe</FormLabel>
+                <FormLabel>
+                  About Recipe <span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -366,7 +374,9 @@ const RecipeEditForm = () => {
             name="ingredients"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Ingredients</FormLabel>
+                <FormLabel>
+                  Ingredients <span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}
@@ -384,7 +394,9 @@ const RecipeEditForm = () => {
             name="procedure"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Procedure</FormLabel>
+                <FormLabel>
+                  Procedure <span className="text-red-500">*</span>
+                </FormLabel>
                 <FormControl>
                   <Textarea
                     {...field}

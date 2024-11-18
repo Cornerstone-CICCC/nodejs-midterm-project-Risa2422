@@ -71,39 +71,61 @@ const Header = () => {
   };
 
   return (
-    <header className="flex justify-between p-4 border-b">
-      <div>logo</div>
-      <nav>
-        <ul className="flex gap-3">
+    <header className="flex p-4 border-b justify-between ">
+      <Link
+        href={`/`}
+        className="pl-[10vw] lg:pl-[17vw] text-sm text-gray-700 font-semibold hover:text-gray-500"
+      >
+        logo
+      </Link>
+      <nav className="pr-[10vw] lg:pr-[17vw]">
+        <ul className="flex gap-6">
           {isLoggedIn ? (
             <>
               <li>
-                <Link href={`/mypage/recipe/create`}>
-                  <button className="flex items-center justify-center basis-12 bg-customRose rounded-full py-0.5 px-2.5">
-                    <p className="text-white">Add</p>
-                    <img
-                      src="/add.png"
-                      alt="calendar"
-                      className="w-4 h-4 object-contain pl-1"
-                    />
-                    
+                <Link
+                  href={`/mypage/recipe/create`}
+                  className="text-sm text-gray-600 font-semibold"
+                >
+                  <button className="flex items-center justify-center basis-12 bg-customRose rounded-full py-0.5 px-4">
+                    <p className="text-sm text-white">Add</p>
                   </button>
                 </Link>
               </li>
               <li>
-                <Link href={`/mypage/${loggedUserId}`}>My Recipes</Link>
+                <Link
+                  href={`/mypage/${loggedUserId}`}
+                  className="text-sm text-gray-700 font-semibold hover:text-gray-500"
+                >
+                  My Recipes
+                </Link>
               </li>
               <li>
-                <button onClick={handleLogout}>Log out</button>
+                <button
+                  className="text-sm text-gray-700 font-semibold hover:text-gray-500"
+                  onClick={handleLogout}
+                >
+                  Log out
+                </button>
               </li>
             </>
           ) : (
             <>
               <li>
-                <button onClick={handleSignUp}>Sign up</button>
+                <button
+                  className="text-sm text-gray-700 font-semibold hover:text-gray-500"
+                  onClick={handleSignUp}
+                >
+                  Sign up
+                </button>
               </li>
               <li>
-                <button onClick={handleLogin}>Log in</button>
+                <button
+                  className="text-sm text-gray-700 font-semibold hover:text-gray-500"
+                  onClick={handleLogin}
+                >
+                  Log in
+                </button>
               </li>
             </>
           )}

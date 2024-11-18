@@ -57,18 +57,20 @@ const RecipeDetail = () => {
   }
 
   return (
-    <div className="py-16 px-10 lg:px-[13rem]">
-      <div className="w-full">
-        <h2 className="text-3xl">{recipe.title}</h2>
-        <div className="flex flex-col lg:flex-row w-full mt-3">
-          <div className="flex basis-[70%]">
+    <div className="py-14 px-20 lg:px-[16rem]">
+      <div className="w-full ">
+        <h2 className="text-3xl font-semibold font-playfair tracking-wider mb-6">
+          {recipe.title}
+        </h2>
+        <div className="flex flex-col lg:flex-row w-full mt-3 gap-5">
+          <div className="flex basis-[70%] ">
             <img
               src={recipe.image}
               alt="recipe image "
-              className="object-cover object-center w-full h-[18rem] lg:h-[24rem]"
+              className="object-cover object-center w-full h-[18rem] lg:h-[24rem] rounded"
             />
           </div>
-          <div className="flex flex-col gap-3 py-6 lg:px-4 basis-[30%] ">
+          <div className="flex flex-col gap-3 lg:px-4 basis-[30%] ">
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center">
                 <div className="flex basis-5">
@@ -140,14 +142,14 @@ const RecipeDetail = () => {
       </div>
       <div className="flex flex-col lg:flex-row mt-10">
         <div className="flex flex-col basis-[70%] py-4">
-          <h2 className="text-2xl border-b w-fit border-customRed">
+          <h2 className="text-2xl border-b w-fit border-customRed font-semibold font-playfair tracking-wide">
             Procedure
           </h2>
           <div className="whitespace-pre-line mt-4">{recipe.procedure}</div>
         </div>
         <div className="flex flex-col basis-[30%]">
           <div className=" bg-customEcruWhite  lg:ml-4 p-4">
-            <h2 className="text-2xl ">
+            <h2 className="text-2xl font-semibold font-playfair tracking-wide">
               Ingredients<span className="text-sm"> (serves1)</span>
             </h2>
             <div className="whitespace-pre-line mt-4">{recipe.ingredients}</div>

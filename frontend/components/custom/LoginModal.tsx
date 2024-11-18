@@ -101,7 +101,9 @@ const LoginModal: React.FC<{
           <button onClick={onClose}>
             <img src="/arrow-circle-left.png" alt="Back" />
           </button>
-          <h2 className="text-xl mb-4">{isSignedUp ? "Sign up" : "Log in"}</h2>
+          <h2 className="text-2xl mb-4 font-semibold tracking-widest font-playfair">
+            {isSignedUp ? "Sign up" : "Log in"}
+          </h2>
           <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8">
             <FormField
               control={form.control}

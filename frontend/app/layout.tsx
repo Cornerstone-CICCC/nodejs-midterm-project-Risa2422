@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "../components/custom/Header";
 import Provider from "../provider";
+import { Roboto, Playfair_Display } from "next/font/google"; // 修正: Playfair_Display -> PlayfairDisplay
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -13,6 +14,18 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-roboto",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-playfair",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <Provider>
-      <html lang="en">
+      <html lang="en" className={`${roboto.variable} ${playfair.variable}`}>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
