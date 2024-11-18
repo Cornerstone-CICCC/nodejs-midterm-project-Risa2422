@@ -132,13 +132,13 @@ const RecipeCreateForm = () => {
   }
 
   return (
-    <div className="mx-auto py-3 px-64 bg-white shadow-lg rounded-lg">
+    <div className="mx-auto pt-3 pb-10 px-64 bg-white shadow-lg rounded-lg">
       <div className="flex gap-2 pb-8">
         <Link href={`/`} className="text-sm text-gray-700 hover:text-gray-500">
           Top
         </Link>
         <p className="text-sm text-gray-700">{">"}</p>
-        <p className="text-sm  text-gray-700">{"Recipe"}</p>
+        <p className="text-sm  text-gray-700">{"Create a Recipe"}</p>
       </div>
       <h2 className="text-2xl font-semibold font-playfair tracking-wide mb-4">
         Create a New Recipe
@@ -305,7 +305,13 @@ const RecipeCreateForm = () => {
                   Ingredients<span className="text-red-500">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Textarea {...field} className="h-[200px]" />
+                  <Textarea
+                    placeholder={
+                      "1. Takoyaki flour (or tempura flour) - 1/2 cup\n\n2. Dashi stock (prepared from dashi powder or liquid) - 1/2 cup\n\n3. Egg - 1 large\n\n4. Octopus (boiled and diced) - About 2-3 small pieces\n\n5. Pickled ginger (beni shoga) - 1 tablespoon\n\n"
+                    }
+                    {...field}
+                    className="h-[200px]"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -331,9 +337,15 @@ const RecipeCreateForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Create"}
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-36"
+            >
+              {isSubmitting ? "Submitting..." : "Create"}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

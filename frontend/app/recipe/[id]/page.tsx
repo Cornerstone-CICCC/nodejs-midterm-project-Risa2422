@@ -80,7 +80,7 @@ const RecipeDetail = () => {
           </div>
           <div className="flex flex-col gap-3 lg:px-4 basis-[30%] ">
             <ul className="flex flex-col gap-2">
-              <li className="flex gap-2 items-center">
+              <li className="flex gap-3 items-center">
                 <div className="flex basis-5">
                   <img
                     src="/location-dark.png"
@@ -90,7 +90,7 @@ const RecipeDetail = () => {
                 </div>
                 {recipe.cuisineType}
               </li>
-              <li className="flex gap-2 items-center">
+              <li className="flex gap-3 items-center">
                 <div className="flex basis-5">
                   <img
                     src="/money.png"
@@ -100,7 +100,7 @@ const RecipeDetail = () => {
                 </div>
                 {recipe.price}
               </li>
-              <li className="flex gap-2 items-center">
+              <li className="flex gap-3 items-center">
                 <div className="flex basis-5">
                   <img
                     src="/level.png"
@@ -110,7 +110,7 @@ const RecipeDetail = () => {
                 </div>
                 {recipe.difficulty}
               </li>
-              <li className="flex gap-2 items-center">
+              <li className="flex gap-3 items-center">
                 <div className="flex basis-5">
                   <img
                     src="/timer-dark.png"
@@ -120,7 +120,7 @@ const RecipeDetail = () => {
                 </div>
                 {recipe.cookingTime} mins
               </li>
-              <li className="flex gap-2 items-center">
+              <li className="flex gap-3 items-center">
                 <div className="flex basis-5">
                   <img
                     src="/calendar.png"
@@ -131,7 +131,7 @@ const RecipeDetail = () => {
                 <p> {format(new Date(recipe.date), "yyyy-MM-dd")}</p>
               </li>
 
-              <li className="flex gap-2 items-center">
+              <li className="flex gap-3 items-center">
                 <div className="flex basis-5">
                   <img
                     src="/person.png"
