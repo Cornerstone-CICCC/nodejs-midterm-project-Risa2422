@@ -65,6 +65,7 @@ const RecipeEditForm = () => {
   const [error, setError] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { loggedUserId } = useContext(UserContext) || { loggedUserId: null };
+  const [isLoading, setIsLoading] = useState(true);
 
   const formSchema = z.object({
     title: z
@@ -127,12 +128,14 @@ const RecipeEditForm = () => {
           setImageUrl(data.image);
         } catch (error) {
           setError("Failed to load recipe data");
+        } finally {
+          setIsLoading(false);
         }
       };
 
       fetchRecipe();
     }
-  }, []);
+  }, [id, form]);
 
   const handleDelete = async () => {
     try {
@@ -212,18 +215,23 @@ const RecipeEditForm = () => {
     }
   };
 
-  if (!form.getValues()) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="mx-auto py-3 px-60 bg-white shadow-lg rounded-lg">
+    <div className="mx-auto pt-3 pb-10 px-60 bg-white shadow-lg rounded-lg">
       <div className="flex gap-2 pb-8">
         <Link href={`/`} className="text-sm text-gray-700 hover:text-gray-500">
           Top
         </Link>
         <p className="text-sm text-gray-700">{">"}</p>
-        <p className="text-sm  text-gray-700">{"Recipe"}</p>
+        <Link
+          href={`/mypage/${loggedUserId}`}
+          className="text-sm text-gray-700 hover:text-gray-500"
+        >
+          Recipe
+        </Link>
       </div>
       <h2 className="text-2xl font-semibold font-playfair tracking-wide mb-4">
         Edit Recipe
@@ -263,7 +271,6 @@ const RecipeEditForm = () => {
               />
             </div>
           )}
-
           <FormField
             control={form.control}
             name="title"
@@ -417,12 +424,12 @@ const RecipeEditForm = () => {
             )}
           />
 
-          <div className="space-x-4">
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Updating..." : "Update Recipe"}
-            </Button>
+          <div className="space-x-4 flex justify-end">
             <Button type="button" variant="destructive" onClick={handleDelete}>
               Delete Recipe
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Updating..." : "Update Recipe"}
             </Button>
           </div>
         </form>
