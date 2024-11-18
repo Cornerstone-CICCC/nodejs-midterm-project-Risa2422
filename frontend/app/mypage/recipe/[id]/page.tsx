@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "../../../../components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import Link from "next/link";
 
 async function getRecipeById(id: string): Promise<Recipe> {
   const response = await fetch(`http://localhost:3000/recipe/${id}`, {
@@ -131,7 +132,7 @@ const RecipeEditForm = () => {
 
       fetchRecipe();
     }
-  }, [id]);
+  }, []);
 
   const handleDelete = async () => {
     try {
@@ -216,7 +217,14 @@ const RecipeEditForm = () => {
   }
 
   return (
-    <div className="mx-auto py-16 px-60 bg-white shadow-lg rounded-lg">
+    <div className="mx-auto py-3 px-60 bg-white shadow-lg rounded-lg">
+      <div className="flex gap-2 pb-8">
+        <Link href={`/`} className="text-sm text-gray-700 hover:text-gray-500">
+          Top
+        </Link>
+        <p className="text-sm text-gray-700">{">"}</p>
+        <p className="text-sm  text-gray-700">{"Recipe"}</p>
+      </div>
       <h2 className="text-2xl font-semibold font-playfair tracking-wide mb-4">
         Edit Recipe
       </h2>

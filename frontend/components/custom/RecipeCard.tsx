@@ -9,7 +9,7 @@ type Props = {
 const RecipeCard = (props: Props) => {
   return (
     <Link href={`/recipe/${props.recipe.id}`}>
-      <div className="my-3 md:w-[220px] rounded  bg-white dark:bg-gray-800 duration-300 hover:-translate-y-1 relative">
+      <div className="my-3 max-w-sm md:w-[220px] rounded  bg-white dark:bg-gray-800 duration-300 hover:-translate-y-1 relative">
         <CldImage
           src={props.recipe.image}
           width="500"
@@ -23,7 +23,7 @@ const RecipeCard = (props: Props) => {
         <div className="py-3 px-2 flex flex-col gap-1">
           <h2
             className={
-              "text-lg font-semibold tracking-wide font-playfair text-gray-800 overflow-auto "
+              "text-xl md:text-lg font-semibold tracking-wide font-playfair text-gray-800 overflow-auto "
             }
           >
             {props.recipe.title}

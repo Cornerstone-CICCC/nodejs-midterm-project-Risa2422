@@ -13,7 +13,7 @@ const MyRecipe = () => {
   }
 
   return (
-    <main className="flex flex-col items-center p-16">  
+    <main className="flex flex-col items-center p-16">
       <RecipeCardList isMypage={true} userId={userId} />
     </main>
   );

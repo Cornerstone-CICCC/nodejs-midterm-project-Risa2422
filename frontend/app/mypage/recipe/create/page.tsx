@@ -27,19 +27,7 @@ import {
   SelectValue,
 } from "../../../../components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-
-type RecipeFormData = {
-  title: string;
-  cuisineType: string;
-  cookingTime: number;
-  difficulty: "Easy" | "Medium" | "Advanced";
-  image: string;
-  price: number;
-  about: string;
-  ingredients: string;
-  procedure: string;
-  date: Date;
-};
+import Link from "next/link";
 
 const RecipeCreateForm = () => {
   const { loggedUserId } = useContext(UserContext) || { loggedUserId: null };
@@ -144,8 +132,17 @@ const RecipeCreateForm = () => {
   }
 
   return (
-    <div className="mx-auto py-16 px-60 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Create a New Recipe</h2>
+    <div className="mx-auto py-3 px-64 bg-white shadow-lg rounded-lg">
+      <div className="flex gap-2 pb-8">
+        <Link href={`/`} className="text-sm text-gray-700 hover:text-gray-500">
+          Top
+        </Link>
+        <p className="text-sm text-gray-700">{">"}</p>
+        <p className="text-sm  text-gray-700">{"Recipe"}</p>
+      </div>
+      <h2 className="text-2xl font-semibold font-playfair tracking-wide mb-4">
+        Create a New Recipe
+      </h2>
       {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
 
       <Form {...form}>

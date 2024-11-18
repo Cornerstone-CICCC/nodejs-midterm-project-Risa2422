@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Recipe } from "../../../types/recipe";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
+import Link from "next/link";
 
 type Params = {
   id?: string;
@@ -57,8 +58,15 @@ const RecipeDetail = () => {
   }
 
   return (
-    <div className="py-14 px-20 lg:px-[16rem]">
-      <div className="w-full ">
+    <div className="py-3 px-20 lg:px-[16rem]">
+      <div className="flex gap-2">
+        <Link href={`/`} className="text-sm text-gray-700 hover:text-gray-500">
+          Top
+        </Link>
+        <p className="text-sm text-gray-700">{">"}</p>
+        <p className="text-sm  text-gray-700">{"Recipe"}</p>
+      </div>
+      <div className="w-full mt-8">
         <h2 className="text-3xl font-semibold font-playfair tracking-wider mb-6">
           {recipe.title}
         </h2>

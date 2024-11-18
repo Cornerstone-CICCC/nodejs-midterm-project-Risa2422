@@ -5,9 +5,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../../provider";
 import { useEffect } from "react";
+import { Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
   const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { loggedUserId, setUserId } = useContext(UserContext) || {
@@ -70,67 +78,97 @@ const Header = () => {
     }
   };
 
+  const NavigationItems = ({ className = "", onClick = () => {} }) => (
+    <ul className={`flex flex-col md:flex-row gap-6 ${className}`}>
+      {isLoggedIn ? (
+        <>
+          <li>
+            <Link
+              href={`/mypage/recipe/create`}
+              className="text-sm text-gray-700 hover:text-gray-500"
+              onClick={onClick}
+            >
+              Add Recipe
+            </Link>
+          </li>
+          <li>
+            <Link
+              href={`/mypage/${loggedUserId}`}
+              className="text-sm text-gray-700 hover:text-gray-500"
+              onClick={onClick}
+            >
+              My Recipes
+            </Link>
+          </li>
+          <li>
+            <button
+              className="text-sm text-gray-700 hover:text-gray-500"
+              onClick={() => {
+                handleLogout();
+                onClick();
+              }}
+            >
+              Log out
+            </button>
+          </li>
+        </>
+      ) : (
+        <>
+          <li>
+            <button
+              className="text-sm text-gray-700  hover:text-gray-500"
+              onClick={() => {
+                handleSignUp();
+                onClick();
+              }}
+            >
+              Sign up
+            </button>
+          </li>
+          <li>
+            <button
+              className="text-sm text-gray-700 hover:text-gray-500"
+              onClick={() => {
+                handleLogin();
+                onClick();
+              }}
+            >
+              Log in
+            </button>
+          </li>
+        </>
+      )}
+    </ul>
+  );
+
   return (
-    <header className="flex p-4 border-b justify-between ">
+    <header className="flex p-4 border-b justify-between items-center">
       <Link
-        href={`/`}
-        className="pl-[10vw] lg:pl-[17vw] text-sm text-gray-700 font-semibold hover:text-gray-500"
+        href="/"
+        className="pl-4 md:pl-[10vw] lg:pl-[17vw] text-sm text-gray-600 font-semibold hover:text-gray-500"
       >
         logo
       </Link>
-      <nav className="pr-[10vw] lg:pr-[17vw]">
-        <ul className="flex gap-6">
-          {isLoggedIn ? (
-            <>
-              <li>
-                <Link
-                  href={`/mypage/recipe/create`}
-                  className="text-sm text-gray-600 font-semibold"
-                >
-                  <button className="flex items-center justify-center basis-12 bg-customRose rounded-full py-0.5 px-4">
-                    <p className="text-sm text-white">Add</p>
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/mypage/${loggedUserId}`}
-                  className="text-sm text-gray-700 font-semibold hover:text-gray-500"
-                >
-                  My Recipes
-                </Link>
-              </li>
-              <li>
-                <button
-                  className="text-sm text-gray-700 font-semibold hover:text-gray-500"
-                  onClick={handleLogout}
-                >
-                  Log out
-                </button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li>
-                <button
-                  className="text-sm text-gray-700 font-semibold hover:text-gray-500"
-                  onClick={handleSignUp}
-                >
-                  Sign up
-                </button>
-              </li>
-              <li>
-                <button
-                  className="text-sm text-gray-700 font-semibold hover:text-gray-500"
-                  onClick={handleLogin}
-                >
-                  Log in
-                </button>
-              </li>
-            </>
-          )}
-        </ul>
+
+      <nav className="hidden md:block pr-[10vw] lg:pr-[17vw]">
+        <NavigationItems />
       </nav>
+
+      <div className="md:hidden pr-4">
+        <Sheet>
+          <SheetTrigger className="p-2">
+            <Menu className="h-6 w-6" />
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[240px] sm:w-[300px]">
+            <SheetHeader>
+              <SheetTitle className="mr-auto">Menu</SheetTitle>
+            </SheetHeader>
+            <nav className="flex flex-col gap-4 mt-8">
+              <NavigationItems className="flex-col items-start" />
+            </nav>
+          </SheetContent>
+        </Sheet>
+      </div>
 
       {isModalOpen && (
         <LoginModal

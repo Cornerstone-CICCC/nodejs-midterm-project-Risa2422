@@ -78,7 +78,9 @@ const LoginModal: React.FC<{
       });
 
       if (!response.ok) {
-        throw new Error("Invalid username or password");
+        alert("Invalid username or password");
+        form.reset();
+        return;
       }
 
       const userId = await response.json();
@@ -95,16 +97,16 @@ const LoginModal: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-96">
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-9 rounded-lg w-96">
         <Form {...form}>
           <button onClick={onClose}>
-            <img src="/arrow-circle-left.png" alt="Back" />
+            <img src="/arrow.png" alt="Back" className="w-5" />
           </button>
-          <h2 className="text-2xl mb-4 font-semibold tracking-widest font-playfair">
+          <h2 className="text-2xl mb-4 font-semibold tracking-wider font-playfair mt-3">
             {isSignedUp ? "Sign up" : "Log in"}
           </h2>
-          <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-7">
             <FormField
               control={form.control}
               name="username"
@@ -131,7 +133,9 @@ const LoginModal: React.FC<{
                 </FormItem>
               )}
             />
-            <Button type="submit">{isSignedUp ? "Sign Up" : "Log In"}</Button>
+            <Button type="submit" className="w-full mt-7">
+              {isSignedUp ? "Sign Up" : "Log In"}
+            </Button>
           </form>
         </Form>
       </div>

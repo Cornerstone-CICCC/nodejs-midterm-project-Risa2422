@@ -22,14 +22,6 @@ async function getAllRecipes() {
   return data;
 }
 
-async function getAllName() {
-  const response = await fetch(
-    "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
-  );
-
-  const data = await response.json();
-}
-
 async function getRecipesByUserId(id: string) {
   const response = await fetch(`http://localhost:3000/recipe/user/${id}`, {
     credentials: "include",
@@ -62,15 +54,18 @@ const RecipeCardList: React.FC<RecipeCardListProps> = ({
           fetchedRecipes = await getAllRecipes();
         }
         setRecipes(fetchedRecipes);
-      } catch (err) {
-        setError("Failed to fetch recipes");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-    getAllName();
   }, [isMypage, userId]);
 
   if (loading) return <div>Loading...</div>;
