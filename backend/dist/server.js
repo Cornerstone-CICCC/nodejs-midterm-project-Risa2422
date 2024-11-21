@@ -35,7 +35,7 @@ app.use((0, cookie_session_1.default)({
         (_a = process.env.COOKIE_SIGN_KEY) !== null && _a !== void 0 ? _a : "jerogiglu90o23",
         (_b = process.env.COOKIE_ENCRYPT_KEY) !== null && _b !== void 0 ? _b : "ejefoiwlejf09qo",
     ],
-    maxAge: 60 * 60 * 1000, // 1 hour
+    maxAge: 60 * 60 * 1000,
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));

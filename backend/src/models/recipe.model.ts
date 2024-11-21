@@ -160,12 +160,12 @@ class RecipeModel {
     const index = this.recipes.findIndex((recipe) => recipe.id === id);
     if (index === -1) return undefined;
     if (this.recipes[index].id !== newData.id) return undefined;
-    const updatedArticle = {
+    const updatedRecipe = {
       ...this.recipes[index],
       ...newData,
     };
-    this.recipes[index] = updatedArticle;
-    return updatedArticle;
+    this.recipes[index] = updatedRecipe;
+    return updatedRecipe;
   }
 
   delete(id: string, recipeId: string): boolean {

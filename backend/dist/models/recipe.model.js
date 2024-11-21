@@ -144,9 +144,9 @@ class RecipeModel {
             return undefined;
         if (this.recipes[index].id !== newData.id)
             return undefined;
-        const updatedArticle = Object.assign(Object.assign({}, this.recipes[index]), newData);
-        this.recipes[index] = updatedArticle;
-        return updatedArticle;
+        const updatedRecipe = Object.assign(Object.assign({}, this.recipes[index]), newData);
+        this.recipes[index] = updatedRecipe;
+        return updatedRecipe;
     }
     delete(id, recipeId) {
         const index = this.recipes.findIndex((recipe) => recipe.id === id);

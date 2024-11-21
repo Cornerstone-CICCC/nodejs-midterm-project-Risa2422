@@ -37,7 +37,6 @@ async function getUserNameById(id: string): Promise<User> {
   return data;
 }
 
-let userName = "";
 const RecipeDetail = () => {
   const { id } = useParams<Params>();
   const [recipe, setRecipe] = useState<Recipe | null>(null);

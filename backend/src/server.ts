@@ -27,7 +27,7 @@ app.use(
       process.env.COOKIE_SIGN_KEY ?? "jerogiglu90o23",
       process.env.COOKIE_ENCRYPT_KEY ?? "ejefoiwlejf09qo",
     ],
-    maxAge: 60 * 60 * 1000, // 1 hour
+    maxAge: 60 * 60 * 1000,
   })
 );
 
